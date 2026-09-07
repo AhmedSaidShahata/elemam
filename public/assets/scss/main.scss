@@ -98,3 +98,14 @@
 @use "./components/new-invoice";
 @use "./components/payment-categories";
 @use "./components/order-dialog";
+
+// Landing (Imam University x OTAS agreement)
+@use "./components/landing-section-header";
+@use "./components/landing-navbar";
+@use "./components/landing-hero";
+@use "./components/landing-about";
+@use "./components/landing-programs";
+@use "./components/landing-international";
+@use "./components/landing-faq";
+@use "./components/landing-contact";
+@use "./components/landing-footer";

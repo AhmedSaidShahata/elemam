@@ -1,0 +1,334 @@
+@use "../mixins" as *;
+
+.landing-programs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 64px;
+  padding: 80px 120px;
+  background: var(--landing-tint);
+
+  @include screen(1279px) {
+    gap: 48px;
+    padding: 64px 5%;
+  }
+
+  @include screen(767px) {
+    gap: 32px;
+    padding: 48px 16px;
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+  }
+
+  &__subtitle {
+    max-width: 720px;
+    margin: 0;
+    font-family: var(--font-cairo);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: normal;
+    color: var(--landing-muted);
+    text-align: center;
+
+    @include screen(767px) {
+      font-size: 15px;
+    }
+  }
+
+  // Bento grid. Row 1 pairs a two-card stack with one tall feature card;
+  // row 2 is a four-up. Source order follows the design, so under RTL the
+  // stack lands on the left exactly as drawn.
+  &__grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+  }
+
+  // `row-reverse` keeps the card arrays in the design's numbered order while
+  // placing them on the sides the design draws them on under RTL.
+  &__row {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: stretch;
+    gap: 24px;
+    width: 100%;
+
+    @include screen(1279px) {
+      flex-wrap: wrap;
+    }
+  }
+
+  &__stack {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 540px;
+    flex: none;
+
+    @include screen(1679px) {
+      width: 32%;
+    }
+
+    @include screen(1279px) {
+      width: 100%;
+      flex-direction: row;
+    }
+
+    @include screen(767px) {
+      flex-direction: column;
+    }
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 12px 24px 0 rgba(72, 52, 120, 0.06);
+
+    &--plain {
+      background: #fff;
+    }
+
+    &--sky {
+      background: var(--landing-sky);
+      box-shadow: 0 12px 24px 0 rgba(72, 52, 120, 0.15);
+    }
+
+    &--purple {
+      background: var(--landing-purple);
+      box-shadow: 0 12px 24px 0 rgba(72, 52, 120, 0.15);
+    }
+
+    // Two stacked cards in the left column of row 1. These are sized explicitly
+    // rather than with `flex: 1 1 0`: the cards clip their media, and a flex
+    // item with `overflow: hidden` has an automatic minimum size of 0, so a
+    // zero basis collapses them the moment the tall sibling wraps to its own
+    // line.
+    &--stacked {
+      height: 280px;
+      flex: none;
+
+      @include screen(1279px) {
+        height: auto;
+        flex: 1 1 0;
+        min-width: 0;
+      }
+
+      @include screen(767px) {
+        flex: none;
+      }
+    }
+
+    // The tall feature card of row 1.
+    &--feature {
+      height: 584px;
+      flex: 1 1 0;
+      min-width: 0;
+      justify-content: flex-end;
+
+      @include screen(1279px) {
+        height: auto;
+        width: 100%;
+        flex: 1 1 100%;
+      }
+    }
+
+    // The four-up cards of row 2.
+    &--quarter {
+      height: 318px;
+      flex: 1 1 0;
+      min-width: 0;
+
+      @include screen(1279px) {
+        height: auto;
+        flex: 1 1 calc(50% - 12px);
+      }
+
+      @include screen(767px) {
+        flex: 1 1 100%;
+      }
+    }
+  }
+
+  &__card-media {
+    position: relative;
+    width: 100%;
+    height: 180px;
+    flex: none;
+    overflow: hidden;
+
+    .landing-programs__card--feature & {
+      height: 468px;
+
+      @include screen(1279px) {
+        height: 320px;
+      }
+
+      @include screen(767px) {
+        height: 200px;
+      }
+    }
+  }
+
+  &__card-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+
+    &--languages {
+      object-position: center 34%;
+    }
+
+    &--ai {
+      object-position: center 22%;
+    }
+  }
+
+  &__card-scrim {
+    position: absolute;
+    inset: 0;
+    background: rgba(72, 52, 120, 0.3);
+    pointer-events: none;
+
+    .landing-programs__card--feature & {
+      background: rgba(72, 52, 120, 0.47);
+    }
+  }
+
+  &__card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+    padding: 8px 24px;
+
+    .landing-programs__card--feature & {
+      gap: 12px;
+      padding: 24px;
+    }
+  }
+
+  &__card-title {
+    margin: 0;
+    width: 100%;
+    font-family: var(--font-cairo);
+    font-weight: 700;
+    font-size: 18px;
+    line-height: normal;
+    color: var(--landing-ink);
+    text-align: center;
+
+    .landing-programs__card--sky & {
+      color: var(--landing-purple);
+    }
+
+    .landing-programs__card--purple & {
+      color: #fff;
+    }
+
+    @include screen(767px) {
+      font-size: 16px;
+    }
+  }
+
+  &__card-text {
+    margin: 0;
+    width: 100%;
+    font-family: var(--font-cairo);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--landing-muted);
+    text-align: center;
+
+    .landing-programs__card--sky & {
+      color: var(--landing-sky-ink);
+    }
+
+    .landing-programs__card--purple & {
+      color: var(--landing-lilac);
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    flex: none;
+  }
+
+  &__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 16px 48px;
+    border: 0;
+    border-radius: 12px;
+    background: var(--landing-purple);
+    font-family: var(--font-cairo);
+    font-weight: 700;
+    font-size: 20px;
+    line-height: normal;
+    color: #fff;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    filter: drop-shadow(0 8px 8px rgba(72, 52, 120, 0.2));
+    @include transition(0.25);
+
+    &:hover,
+    &:focus-visible {
+      background: #3a2a63;
+    }
+  }
+
+  &__cta-icon {
+    display: block;
+    width: 16px;
+    height: 16px;
+    flex: none;
+    // The exported arrow points to the RTL reading direction; mirror it for LTR.
+    @include flip;
+  }
+
+  &__trust {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  &__trust-icon {
+    display: block;
+    width: 14px;
+    height: 14px;
+    flex: none;
+  }
+
+  &__trust-text {
+    margin: 0;
+    font-family: var(--font-cairo);
+    font-weight: 600;
+    font-size: 16px;
+    line-height: normal;
+    color: var(--landing-purple);
+    text-align: center;
+
+    @include screen(767px) {
+      font-size: 14px;
+    }
+  }
+}

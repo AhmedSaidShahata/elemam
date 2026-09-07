@@ -589,5 +589,118 @@
   "paid_failed": "This page will close within",
   "heading_processing": "Update status",
   "paid_pending": "The payment request has been received and is currently under review. \n It will be confirmed within minutes. \n This page will close within ",
-  "link_expired": "The payment link has expired, Please restart the payment \n  process to continue and settle the invoice.\nThis page will close within"
+  "link_expired": "The payment link has expired, Please restart the payment \n  process to continue and settle the invoice.\nThis page will close within",
+  "landing": {
+    "nav": {
+      "aria_label": "Main navigation",
+      "about": "About the agreement",
+      "programs": "Training programs",
+      "international": "Programs for international students",
+      "faq": "FAQ",
+      "contact": "Contact us",
+      "register_now": "Register now",
+      "switch_language": "Change language",
+      "otas_logo_alt": "OTAS platform",
+      "university_logo_alt": "Imam Mohammad Ibn Saud Islamic University"
+    },
+    "hero": {
+      "badge": "Joint virtual cooperative training initiative",
+      "title": "Virtual training programs for Imam University students - in cooperation with the OTAS platform",
+      "paragraph_1": "Launch your professional future with the first fully virtual cooperative training program in the tourism and digital technology sector!",
+      "paragraph_2": "Through a strategic partnership between Imam Mohammad Ibn Saud Islamic University and OTAS, a leader in travel technology, we open the door to an exceptional training experience. ",
+      "paragraph_3": "These are not just training hours, but an intensive hands-on journey through advanced operating systems, big data analysis, content management, digital compliance, financial technology and artificial intelligence – all delivered on interactive training platforms that mirror a real work environment.",
+      "paragraph_4": "You are set to gain the modern operational skills the market demands today, and to become part of Saudi Vision 2030 in empowering young national talent. Whether you are a male or female student, this is your chance to build competitive practical experience, grow a professional network and add real weight to your CV – all from where you are, at your own pace.",
+      "quote": "Don't wait for an opportunity like this to come around again.. register now and be one of the changemakers in the digital tourism sector.",
+      "note": "The programs run entirely virtually on advanced digital training platforms, giving students hands-on training in travel operating systems, data, content, compliance, financial technology and artificial intelligence.",
+      "cta_primary": "Start registration",
+      "cta_secondary": "Available program details"
+    },
+    "about": {
+      "eyebrow": "Joint cooperation agreement",
+      "title": "About the agreement",
+      "partner_university": "Imam Mohammad Ibn Saud University",
+      "partner_university_role": "Academic partner",
+      "partner_otas": "OTAS platform",
+      "partner_otas_role": "Digital transformation partner",
+      "intro": "Imam University and OTAS signed this cooperation agreement in order to:",
+      "goal_1": "Strengthen cooperative training for students and prepare them for the job market",
+      "goal_2": "Develop advanced digital learning programs specialised in the tourism sector",
+      "goal_3": "Exchange academic, practical and technical expertise between both parties",
+      "goal_4": "Support Saudi Vision 2030 targets in digital transformation and capability building",
+      "goal_5": "Carry out joint scientific research and build smart technical solutions that serve the community",
+      "note_financial_title": "The agreement is non-financial and serves as a general framework for cooperation",
+      "note_financial_body": "“It does not create, and shall not be construed as creating, any financial or legal obligation…”",
+      "note_privacy_title": "Data protection and confidentiality",
+      "note_privacy_body": "“Both parties undertake to keep information confidential… and to comply with the university’s cybersecurity requirements.”",
+      "duration": "Agreement term: three years, renewable"
+    },
+    "programs": {
+      "eyebrow": "Building promising talent",
+      "title": "The seven training programs",
+      "subtitle": "Specialised programs that combine technology and tourism to prepare the workforce of the future. Every program is designed to the highest shared academic and technical standards.",
+      "traveltech_title": "TravelTech program",
+      "traveltech_text": "A technical program introducing modern travel operating platforms such as OTAS.NET, supplier management, building travel sites without code, and understanding API integrations.",
+      "media_title": "Travel Media program",
+      "media_text": "Focused on producing written and visual tourism content, writing travel guides, and creating creative content with artificial intelligence.",
+      "languages_title": "Languages and international customer service program",
+      "languages_text": "Specialised in tourism translation, multilingual content, international communication, and handling complaints professionally.",
+      "compliance_title": "Travel Compliance program",
+      "compliance_text": "Focused on regulatory compliance, tourism contracts, international regulations, and managing legal risk in the travel sector.",
+      "fintech_title": "Travel FinTech program",
+      "fintech_text": "Specialised in financial wallets, settlements, electronic payment, and managing financial risk in the travel sector.",
+      "ai_title": "Travel AI program",
+      "ai_text": "Focused on building self-operating intelligent systems, recommendation engines, dynamic pricing, and the Travel AI Agent.",
+      "data_title": "Travel Data program",
+      "data_text": "Introduces trainees to booking data analysis, building dashboards, reading indicators, and feeding artificial intelligence models.",
+      "cta": "Register now",
+      "trust": "Registration is free and carries no prior financial commitment"
+    },
+    "international": {
+      "eyebrow": "International students",
+      "title": "Programs tailored to international students",
+      "visual_title": "The global gateway to digital tourism education",
+      "visual_text": "We connect you to your professional future, wherever you are",
+      "intro_lead": "Imam University and OTAS welcome international students who wish to join the virtual training programs in the tourism and digital technology sector.",
+      "intro_sub": "All programs are available in Arabic, with an English version available on request, as stated in the meeting document:",
+      "features_title": "Benefits for international students",
+      "global_content_title": "Globally applicable content",
+      "global_content_text": "Curricula designed to align with international tourism job-market standards and requirements.",
+      "fully_virtual_title": "Fully virtual training",
+      "fully_virtual_text": "Attend interactive lectures and workshops from anywhere in the world, with complete flexibility.",
+      "certificates_title": "Internationally recognised certificates",
+      "certificates_text": "Professional certificates issued jointly by the OTAS platform and the IFITT-MENA federation.",
+      "language_support_title": "Language support on request",
+      "language_support_text": "Training material is delivered in Arabic, with terminology and references provided in English."
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title": "Everything you need to know",
+      "question_1": "Are the programs free?",
+      "answer_1": "Yes. The programs are completely free for students of Imam Mohammad Ibn Saud Islamic University under the joint cooperation agreement between the university and the OTAS platform.",
+      "question_2": "Is the training fully virtual?",
+      "answer_2": "Yes. Every program runs entirely virtually on advanced digital training platforms, so students can attend and practise from anywhere.",
+      "question_3": "Do students receive a certificate?",
+      "answer_3": "Yes. Students receive a professional certificate on successful completion, issued jointly by the OTAS platform and the accrediting bodies.",
+      "question_4": "Can I register for more than one program?",
+      "answer_4": "Yes. You can register for more than one program subject to seat availability and to your academic timetable."
+    },
+    "contact": {
+      "eyebrow": "Enquiries",
+      "title": "Contact us",
+      "lead": "We are glad to answer your questions about the joint training and digital transformation agreement",
+      "phone_label": "Phone",
+      "email_label": "E-mail"
+    },
+    "footer": {
+      "follow_us": "Follow us",
+      "quick_links": "Quick links",
+      "brand_note": "A cooperation agreement between Imam Mohammad Ibn Saud Islamic University and the OTAS platform",
+      "copyright": "© 2025 All rights reserved — Imam Mohammad Ibn Saud Islamic University and the OTAS platform"
+    },
+    "seo": {
+      "title": "Virtual training programs — Imam Mohammad Ibn Saud Islamic University and OTAS",
+      "description": "Fully virtual cooperative training programs in tourism and digital technology for Imam Mohammad Ibn Saud Islamic University students, in cooperation with the OTAS platform. Registration is free.",
+      "keywords": "cooperative training, Imam Mohammad Ibn Saud Islamic University, OTAS platform, travel technology, digital tourism, Vision 2030"
+    }
+  }
 }

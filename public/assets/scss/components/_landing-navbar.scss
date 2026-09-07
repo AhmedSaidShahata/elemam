@@ -1,0 +1,165 @@
+@use "../mixins" as *;
+
+.landing-navbar {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100px;
+  padding: 0 32px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.6);
+
+  @include screen(1279px) {
+    height: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    padding: 16px 20px;
+  }
+
+  &__logos {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: 100%;
+    flex-shrink: 0;
+  }
+
+  &__logo-otas {
+    display: block;
+    width: 118px;
+    height: 45px;
+  }
+
+  &__logo-divider-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1px;
+    height: 24px;
+    flex: none;
+  }
+
+  &__logo-divider {
+    display: block;
+    width: 24px;
+    height: 1px;
+    transform: rotate(90deg);
+  }
+
+  &__logo-university {
+    display: block;
+    width: 61px;
+    height: 83px;
+    object-fit: contain;
+  }
+
+  &__links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    flex-shrink: 0;
+
+    @include screen(1439px) {
+      gap: 20px;
+    }
+
+    @include screen(1279px) {
+      height: auto;
+      flex-wrap: wrap;
+      justify-content: center;
+      order: 3;
+      width: 100%;
+    }
+  }
+
+  &__link {
+    font-family: var(--font-cairo);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: normal;
+    color: #000;
+    white-space: nowrap;
+    text-decoration: none;
+    @include transition(0.25);
+
+    &:hover,
+    &:focus-visible {
+      color: #483478;
+    }
+
+    @include screen(1439px) {
+      font-size: 16px;
+    }
+  }
+
+  &__lang {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    // Latin locale codes read left-to-right, so the globe stays leading in both locales.
+    direction: ltr;
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: #c6e9fa;
+    overflow: hidden;
+    flex-shrink: 0;
+    cursor: pointer;
+    @include transition(0.25);
+
+    &:hover,
+    &:focus-visible {
+      background: #b3e0f7;
+    }
+  }
+
+  &__lang-icon {
+    display: block;
+    width: 20px;
+    height: 20px;
+  }
+
+  &__lang-label {
+    font-family: var(--font-cairo);
+    font-weight: 700;
+    font-size: 14px;
+    line-height: normal;
+    color: #483478;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  &__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 28px;
+    border: 0;
+    border-radius: 12px;
+    background: #483478;
+    font-family: var(--font-cairo);
+    font-weight: 700;
+    font-size: 20px;
+    line-height: normal;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    flex-shrink: 0;
+    @include transition(0.25);
+
+    &:hover,
+    &:focus-visible {
+      background: #3a2a63;
+    }
+  }
+}

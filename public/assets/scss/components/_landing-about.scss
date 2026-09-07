@@ -1,0 +1,365 @@
+@use "../mixins" as *;
+
+.landing-about {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 56px;
+  padding: 80px 120px;
+  background-image: linear-gradient(
+    122.33deg,
+    rgba(217, 199, 242, 0.23) 0%,
+    rgba(229, 217, 237, 0.23) 30.769%,
+    rgba(240, 227, 209, 0.23) 53.846%,
+    rgba(229, 209, 184, 0.23) 76.923%
+  );
+
+  @include screen(1279px) {
+    padding: 64px 5%;
+    gap: 40px;
+  }
+
+  @include screen(767px) {
+    padding: 48px 16px;
+    gap: 32px;
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+  }
+
+  // Partner lockup: the university card sits on the reading-start side.
+  &__partners {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  &__partner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border: 1px solid var(--landing-border);
+    border-radius: 8px;
+    background: #fff;
+    filter: drop-shadow(0 10px 12px rgba(0, 0, 0, 0.04));
+  }
+
+  &__partner-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    text-align: start;
+  }
+
+  &__partner-name {
+    margin: 0;
+    font-family: var(--font-cairo);
+    font-weight: 700;
+    font-size: 15px;
+    line-height: normal;
+    color: var(--landing-ink);
+  }
+
+  &__partner-role {
+    margin: 0;
+    font-family: var(--font-cairo);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: normal;
+    color: var(--landing-muted);
+  }
+
+  &__partner-icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    background: #f0eef5;
+    flex: none;
+  }
+
+  &__partner-icon {
+    display: block;
+    width: 24px;
+    height: 24px;
+  }
+
+  &__connector {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: none;
+
+    @include screen(575px) {
+      display: none;
+    }
+  }
+
+  &__connector-line {
+    display: block;
+    width: 32px;
+    height: 2px;
+  }
+
+  &__connector-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    background: var(--landing-purple);
+    flex: none;
+  }
+
+  &__connector-icon {
+    display: block;
+    width: 12px;
+    height: 12px;
+  }
+
+  // The design puts the bullet list on the left and the note cards on the right.
+  // `row-reverse` reproduces that while keeping source order = reading order,
+  // which is also the order the columns stack in on narrow screens.
+  &__grid {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-start;
+    gap: 80px;
+    width: 100%;
+
+    @include screen(1279px) {
+      gap: 40px;
+    }
+
+    @include screen(959px) {
+      flex-direction: column;
+      gap: 32px;
+    }
+  }
+
+  &__cards,
+  &__content {
+    display: flex;
+    flex: 1 1 0;
+    min-width: 0;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  &__intro {
+    margin: 0;
+    width: 100%;
+    font-family: var(--font-cairo);
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 1.6;
+    color: var(--landing-ink);
+    text-align: start;
+
+    @include screen(767px) {
+      font-size: 20px;
+    }
+  }
+
+  &__bullets {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @include screen(767px) {
+      gap: 20px;
+    }
+  }
+
+  &__bullet {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+  }
+
+  &__bullet-marker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+    background: rgba(72, 52, 120, 0.08);
+    flex: none;
+  }
+
+  &__bullet-icon {
+    display: block;
+    width: 12px;
+    height: 12px;
+  }
+
+  &__bullet-text {
+    margin: 0;
+    flex: 1 1 0;
+    min-width: 0;
+    font-family: var(--font-cairo);
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--landing-ink);
+    text-align: start;
+
+    @include screen(767px) {
+      font-size: 16px;
+    }
+  }
+
+  &__note {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    padding: 32px;
+    border-radius: 16px;
+
+    @include screen(767px) {
+      padding: 24px;
+    }
+
+    &--financial {
+      background: var(--landing-sky);
+      filter: drop-shadow(0 12px 12px rgba(72, 52, 120, 0.06));
+    }
+
+    &--privacy {
+      background: var(--landing-purple);
+      filter: drop-shadow(0 16px 16px rgba(72, 52, 120, 0.16));
+    }
+  }
+
+  &__note-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+  }
+
+  &__note-icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    flex: none;
+
+    .landing-about__note--financial & {
+      background: #fff;
+    }
+
+    .landing-about__note--privacy & {
+      background: rgba(255, 255, 255, 0.12);
+    }
+  }
+
+  &__note-icon {
+    display: block;
+    width: 16px;
+    height: 16px;
+  }
+
+  &__note-title {
+    margin: 0;
+    flex: 1 1 0;
+    min-width: 0;
+    font-family: var(--font-cairo);
+    font-weight: 700;
+    font-size: 20px;
+    line-height: normal;
+    text-align: start;
+
+    .landing-about__note--financial & {
+      color: var(--landing-purple);
+    }
+
+    .landing-about__note--privacy & {
+      color: #fff;
+    }
+
+    @include screen(767px) {
+      font-size: 18px;
+    }
+  }
+
+  &__note-divider {
+    display: block;
+    width: 100%;
+    height: 1px;
+  }
+
+  &__note-body {
+    margin: 0;
+    width: 100%;
+    font-family: var(--font-cairo);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.6;
+    text-align: start;
+
+    .landing-about__note--financial & {
+      color: var(--landing-sky-ink);
+    }
+
+    .landing-about__note--privacy & {
+      color: #e9e5f2;
+    }
+
+    @include screen(767px) {
+      font-size: 16px;
+    }
+  }
+
+  &__duration {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border: 1px solid var(--landing-border);
+    border-radius: 100px;
+    background: #f5f6f7;
+    flex: none;
+  }
+
+  &__duration-icon {
+    display: block;
+    width: 16px;
+    height: 16px;
+    flex: none;
+  }
+
+  &__duration-text {
+    margin: 0;
+    font-family: var(--font-cairo);
+    font-weight: 600;
+    font-size: 18px;
+    line-height: normal;
+    color: var(--landing-purple);
+
+    @include screen(767px) {
+      font-size: 15px;
+    }
+  }
+}

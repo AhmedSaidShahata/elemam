@@ -1,0 +1,124 @@
+@use "../mixins" as *;
+
+.landing-faq {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 64px;
+  padding: 96px 120px;
+  background: var(--landing-tint);
+
+  @include screen(1279px) {
+    gap: 48px;
+    padding: 72px 5%;
+  }
+
+  @include screen(767px) {
+    gap: 32px;
+    padding: 48px 16px;
+  }
+
+  &__stack {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 1000px;
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    padding: 24px;
+    border: 1px solid var(--landing-border);
+    border-radius: 16px;
+    background: #fff;
+    filter: drop-shadow(0 8px 8px rgba(72, 52, 120, 0.03));
+    @include transition(0.25);
+
+    &--open {
+      background: var(--landing-surface);
+    }
+
+    @include screen(767px) {
+      padding: 18px;
+      gap: 12px;
+    }
+  }
+
+  &__question {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    text-align: start;
+  }
+
+  &__trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 18px;
+    background: rgba(72, 52, 120, 0.08);
+    flex: none;
+    @include transition(0.25);
+
+    .landing-faq__card--open & {
+      background: var(--landing-purple);
+    }
+  }
+
+  &__trigger-icon {
+    display: block;
+    width: 16px;
+    height: 16px;
+  }
+
+  &__question-text {
+    margin: 0;
+    flex: 1 1 0;
+    min-width: 0;
+    font-family: var(--font-cairo);
+    font-weight: 700;
+    font-size: 18px;
+    line-height: normal;
+    color: var(--landing-purple);
+    text-align: start;
+
+    @include screen(767px) {
+      font-size: 16px;
+    }
+  }
+
+  &__answer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  &__answer-divider {
+    display: block;
+    width: 100%;
+    height: 1px;
+  }
+
+  &__answer-text {
+    margin: 0;
+    width: 100%;
+    padding-top: 12px;
+    font-family: var(--font-cairo);
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--landing-muted);
+    text-align: start;
+  }
+}
