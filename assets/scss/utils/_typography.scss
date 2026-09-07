@@ -1,0 +1,53 @@
+* {
+    font-family: var(--font-family);
+}
+
+.font-flag {
+    font-family: "NotoColorEmoji", sans-serif, Arial, Helvetica;
+    font-style: normal;
+    font-size: 24px !important;
+}
+
+.font-din {
+    font-family: "DINArabic-Black", sans-serif, Arial, Helvetica !important;
+}
+
+
+@supports (-webkit-overflow-scrolling: touch) {
+    .font-flag {
+        font-family: initial !important;
+        font-size: initial !important;
+        font-size: 24px !important;
+        position: relative;
+        top: 3px;
+    }
+}
+
+//firefox specific
+
+@-moz-document url-prefix() {
+    .font-flag {
+        font-family: initial !important;
+        font-style: initial;
+    }
+}
+
+//safari specific
+@media not all and (min-resolution: 0.001dpcm) {
+    @supports (-webkit-appearance:none) {
+        .font-flag {
+            font-family: initial !important;
+            font-size: 33px !important;
+            position: relative;
+            top: 8px
+        }
+    }
+}
+
+
+
+@for $i from 8 through 18 {
+    .size-#{$i} {
+        font-size: #{$i}px !important;
+    }
+}

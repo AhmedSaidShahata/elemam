@@ -1,0 +1,24 @@
+@use "../mixins" as *;
+.btn-input {
+    width: 100%;
+    height: auto !important;
+    
+    .v-btn__content {
+        width: 100%;
+    }
+}
+
+.wrapper {
+    width: 100% !important;
+}
+
+.question-text {
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    margin: 0;
+    height: auto;
+    line-height: 1.2;
+    text-transform: none !important;
+    flex: 1;
+}

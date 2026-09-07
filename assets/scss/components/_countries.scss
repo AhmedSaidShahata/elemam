@@ -1,0 +1,25 @@
+@use "../mixins" as *;
+.countries {
+    &-card {
+        box-shadow: 0 0 4px 0 rgba(175, 175, 175, 0.5) !important;
+        border-radius: 8px !important;
+
+        .home-title__btn {
+            border-radius: 25px !important;
+            width: 90px !important;
+            height: 35px !important;
+        }
+    }
+
+    &-cover-image {
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+}
+
+.destination__mobile{
+    height: 350px;
+    @include mobile{
+        height: 61px !important;
+    }
+}

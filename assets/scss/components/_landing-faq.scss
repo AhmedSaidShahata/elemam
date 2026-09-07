@@ -1,0 +1,187 @@
+@use "../mixins" as *;
+
+.landing-faq {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 64px;
+  padding: 96px 120px;
+  background: var(--landing-tint);
+
+  @include screen(1279px) {
+    gap: 48px;
+    padding: 72px 5%;
+  }
+
+  @include screen(767px) {
+    gap: 32px;
+    padding: 48px 16px;
+  }
+
+  &__stack {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 1000px;
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+    padding: 24px;
+    border: 1px solid var(--landing-border);
+    border-radius: 16px;
+    background: #fff;
+    filter: drop-shadow(0 8px 8px rgba(72, 52, 120, 0.03));
+    @include transition(0.25);
+
+    &--open {
+      background: var(--landing-surface);
+    }
+
+    @include screen(767px) {
+      padding: 18px;
+      gap: 12px;
+    }
+  }
+
+  &__question {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    text-align: start;
+  }
+
+  &__trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 18px;
+    background: rgba(72, 52, 120, 0.08);
+    flex: none;
+    @include transition(0.25);
+
+    .landing-faq__card--open & {
+      background: var(--landing-purple);
+    }
+  }
+
+  &__trigger-icon {
+    display: block;
+    width: 16px;
+    height: 16px;
+  }
+
+  &__question-text {
+    margin: 0;
+    flex: 1 1 0;
+    min-width: 0;
+    font-family: var(--font-cairo);
+    font-weight: 700;
+    font-size: 18px;
+    line-height: normal;
+    color: var(--landing-purple);
+    text-align: start;
+
+    @include screen(767px) {
+      font-size: 16px;
+    }
+  }
+
+  // Height-animated collapsible. `0fr -> 1fr` on a grid row is what makes the
+  // open/close read as a slide; browsers that cannot interpolate it simply snap
+  // the height while the fade still runs.
+  &__answer-wrap {
+    display: grid;
+    grid-template-rows: 0fr;
+    width: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      grid-template-rows 0.38s cubic-bezier(0.22, 0.61, 0.24, 1),
+      opacity 0.26s ease,
+      visibility 0s linear 0.38s;
+
+    &--open {
+      grid-template-rows: 1fr;
+      opacity: 1;
+      visibility: visible;
+      transition:
+        grid-template-rows 0.38s cubic-bezier(0.22, 0.61, 0.24, 1),
+        opacity 0.26s ease 0.08s,
+        visibility 0s;
+    }
+  }
+
+  // Carries the clipping so the answer's own top spacing collapses with it.
+  &__answer-clip {
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  &__answer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-top: 16px;
+  }
+
+  &__answer-divider {
+    display: block;
+    width: 100%;
+    height: 1px;
+  }
+
+  &__answer-text {
+    margin: 0;
+    width: 100%;
+    padding-top: 12px;
+    font-family: var(--font-cairo);
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--landing-muted);
+    text-align: start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-faq__answer-wrap,
+  .landing-faq__answer-wrap--open {
+    transition: none;
+  }
+}
+
+.landing-faq__card {
+  transition:
+    transform 0.3s cubic-bezier(0.22, 0.61, 0.24, 1),
+    box-shadow 0.3s cubic-bezier(0.22, 0.61, 0.24, 1),
+    background 0.25s ease-in-out;
+
+  &:hover {
+    transform: translate3d(0, -3px, 0);
+    box-shadow: 0 12px 26px rgba(72, 52, 120, 0.1);
+  }
+}
+
+.landing-faq__trigger-icon {
+  transition: transform 0.3s cubic-bezier(0.22, 0.61, 0.24, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-faq__card,
+  .landing-faq__card:hover {
+    transform: none;
+    transition: none;
+  }
+}

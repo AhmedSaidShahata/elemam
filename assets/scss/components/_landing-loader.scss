@@ -1,0 +1,95 @@
+// Full-screen splash shown while the landing page's hero photo and webfont
+// are still loading in. Nothing would ever remove it for a visitor without
+// JavaScript, so unlike `_landing-motion.scss`'s reveal targets - which stay
+// in normal flow outside `html.js-reveal` - this one is hidden outright by
+// default and only switched on under that class, alongside everything else.
+.landing-loader {
+  display: none;
+}
+
+html.js-reveal .landing-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    160deg,
+    var(--landing-purple-deep) 0%,
+    var(--landing-purple) 100%
+  );
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 0.5s ease,
+    visibility 0s linear 0.5s;
+
+  &--hidden {
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.5s ease,
+      visibility 0s linear 0.5s;
+    pointer-events: none;
+  }
+
+  &__mark {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 168px;
+    height: 168px;
+  }
+
+  &__logo {
+    display: block;
+    width: 120px;
+    height: auto;
+    // A slow, steady breathe reads as "still working" without being frantic.
+    animation: landing-loader-pulse 1.8s ease-in-out infinite;
+  }
+
+  &__ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.18);
+    border-top-color: #fff;
+    animation: landing-loader-spin 0.9s linear infinite;
+  }
+}
+
+@keyframes landing-loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes landing-loader-pulse {
+  0%,
+  100% {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js-reveal .landing-loader {
+    &__logo {
+      animation: none;
+    }
+
+    &__ring {
+      animation: none;
+      // A motionless ring reads as a static badge rather than a broken
+      // spinner, so it keeps a fixed "in progress" look without the spin.
+      border-top-color: rgba(255, 255, 255, 0.55);
+    }
+  }
+}

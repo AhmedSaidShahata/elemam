@@ -1,0 +1,40 @@
+@use "../mixins" as *;
+.offer {
+    &__header {
+        position: relative;
+        min-height: 300px;
+        width: 100%;
+        background-size: cover;
+
+        &__title {
+            border-radius: 31px;
+            background: rgba($color: #fff, $alpha: .4);
+            padding: 10px 30px;
+        }
+    }
+
+    .details-btn {
+        height: 37px !important;
+        min-width: 100% !important;
+    }
+}
+
+.empty-offers {
+    //margin-top: 300px !important;
+    margin-bottom: 300px !important;
+
+    h2 {
+        font-weight: 100;
+        color: #000;
+    }
+}
+
+.offer-card{
+    height: 230px !important;
+}
+.offers{
+    @include screen(1264px){
+        margin-top: 200px !important;
+    }
+}
+ 

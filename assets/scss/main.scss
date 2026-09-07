@@ -1,0 +1,30 @@
+@charset 'UTF-8';
+
+// Base
+@use "./variables";
+@use "./colors";
+@use "./mixins";
+@use "./animations";
+
+// Utils
+@use './utils/helpers';
+@use './utils/reset';
+@use './utils/scrollable';
+@use './utils/transition';
+@use './utils/typography';
+
+// Components
+@use "./components/loading";
+
+// Landing (Imam University x OTAS agreement)
+@use "./components/landing-motion";
+@use "./components/landing-loader";
+@use "./components/landing-section-header";
+@use "./components/landing-navbar";
+@use "./components/landing-hero";
+@use "./components/landing-about";
+@use "./components/landing-programs";
+@use "./components/landing-international";
+@use "./components/landing-faq";
+@use "./components/landing-contact";
+@use "./components/landing-footer";

@@ -1,0 +1,136 @@
+@use "../mixins" as *;
+
+.tourism-destinations {
+
+  &__arrow {
+    width: 40px;
+    height: 40px;
+    background-color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 0 4px 0 rgba(121, 120, 120, 0.5);
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+
+    &--prev {
+      top: 50%;
+      right: -31px;
+
+      @media (max-width:1280px) {
+        right: -45px;
+      }
+
+      @include screen(990px) {
+
+        right: -35px;
+      }
+    }
+
+    &--next {
+      top: 50%;
+      left: 7px;
+
+      @media (max-width:1280px) {
+        left: -5px;
+      }
+
+      @include screen(990px) {
+
+        left: 10px;
+      }
+    }
+  }
+
+  &__swiper {
+    &-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+
+  .swiper-slide {
+    position: relative;
+
+  }
+
+  &__wrapper {
+    width: 120px;
+    height: 120px;
+
+    @media (max-width:1280px) {
+      width: 100px;
+      height: 100px;
+    }
+
+    img {
+      border-radius: 50%;
+    }
+  }
+
+  &__banner {
+    display: flex;
+    align-items: center;
+    height: 230px;
+    border-radius: 8px;
+    background-size: 100% 100% !important;
+
+    &--primary {
+      background-color: var(--primary);
+    }
+
+    &--secondary {
+      background-image: linear-gradient(113deg, #92f2ff 2%, var(--secondary));
+    }
+
+    &-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      width: 100%;
+
+      @include mobile {
+        flex-direction: column;
+
+      }
+
+      &__img {
+        max-width: 50%;
+
+        @include mobile {
+          height: 120px !important;
+        }
+
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+
+      h4 {
+        font-size: 24px;
+
+        @include mobile {
+          font-size: 18px;
+        }
+      }
+
+      span {
+        font-size: 24px;
+        font-weight: bold;
+      }
+    }
+  }
+
+}
+
+.arrow-disabled {
+  opacity: 0.6;
+  cursor: default !important;
+}

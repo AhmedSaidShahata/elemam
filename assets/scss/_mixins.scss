@@ -1,0 +1,75 @@
+@mixin mobile {
+    @media only screen and (max-width: 767px) {
+        @content;
+    }
+}
+@mixin tablet {
+    @media only screen and (min-device-width: 768px) and (max-device-width: 1280px) {
+        @content;
+    }
+}
+@mixin desktop {
+    @media only screen and (min-device-width: 1281px) {
+        @content;
+    }
+}
+
+@mixin sm-and-down {
+    @media only screen and (max-width: 959px) {
+      @content;
+    }
+  }
+  @mixin md-and-up {
+    @media only screen and (min-width: 960px) {
+      @content;
+    }
+  }
+
+  @mixin lg-and-up {
+    @media only screen and (min-width: 1281px) {
+      @content;
+    }
+  }
+  
+  @mixin screen($width) {
+    @media only screen and (max-width: $width) {
+      @content;
+    }
+  }
+
+    @mixin minScreen($width) {
+    @media only screen and (min-width: $width) {
+      @content;
+    }
+  }
+
+  @mixin minMax($min,$max) {
+    @media only screen and (min-width: $min) and (max-width: $max)  {
+      @content;
+    }
+  }
+  
+
+@mixin transition($second) {
+    transition: all #{$second}s ease-in-out;
+}
+
+
+@mixin flip {
+    [dir="ltr"] & {
+        transform: rotateY(-180deg);
+    }
+}
+
+@mixin langLtr {
+    [dir="ltr"] & {
+        @content;
+    }
+}
+
+
+@mixin langRtl {
+  [dir="rtl"] & {
+      @content;
+  }
+}

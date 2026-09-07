@@ -1,0 +1,66 @@
+.custom-btn {
+  padding: 7px !important;
+  &__icon {
+    width: 38px;
+    padding: 5px !important;
+  }
+  
+  &__border {
+    border: 1px solid #d2d1d1;
+    margin: 0 5px;
+    width: 1px;
+    height: 43px;
+    &--outlined {
+      border: 1px solid #5ab805 !important;
+    }
+  }
+
+  &__title {
+    width: 74px;
+  }
+
+  &.v-btn {
+    .v-btn__content {
+      min-width: 100%;
+    }
+  }
+}
+
+button.v-btn {
+
+  box-shadow: none !important;
+  border-radius: 8px;
+  &:focus,
+  &:active {
+    box-shadow: none !important;
+  }
+
+  span {
+    line-height: 1.8 !important;
+    font-size: 14px;
+  }
+}
+
+button.btn__svg-icon {
+  &:hover:before {
+    opacity: 0 !important;
+  }
+}
+
+button.order-pay__button {
+  height: auto !important;
+
+  .v-btn__content {
+    max-width: 100%;
+    white-space: normal;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+}
+
+.menu-btn{
+  border-radius: 17px !important;
+  color: var(--primary) !important;
+  border: 1px solid var(--primary) !important;
+  padding: 6px !important;
+}

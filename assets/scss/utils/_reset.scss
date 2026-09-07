@@ -1,0 +1,111 @@
+@use "../mixins" as *;
+
+ul {
+    padding-left: 0 !important;
+    list-style: none;
+}
+
+p {
+    margin-bottom: 0 !important;
+}
+
+a {
+    text-decoration: none;
+}
+
+.v-list-item {
+    min-height: 40px;
+}
+
+.toasted {
+    margin: 10px 10px !important;
+}
+
+.v-snackbar__wrapper {
+    top: 10%;
+    padding-inline: 30px;
+}
+
+.v-snackbar__content {
+    padding: 0px !important;
+
+    .snack {
+        margin-top: 0px !important;
+    }
+}
+
+.drawer {
+    z-index: 999999999 !important
+}
+
+.fas {
+    cursor: pointer;
+}
+
+
+@media (min-width: 840px) {
+    .v-container {
+        max-width: 885px !important;
+    }
+}
+
+@media (min-width: 1145px) {
+    .v-container {
+        max-width: 100% !important;
+    }
+}
+
+@media (min-width:850px) {
+    .v-container {
+        max-width: 100% !important;
+    }
+}
+
+
+
+.v-container {
+    padding: 0 100px;
+
+    @include screen(1145px) {
+        padding: 0 50px;
+    }
+
+    @include sm-and-down {
+        padding: 12px 30px;
+    }
+}
+
+.toasted {
+    padding: 15px 20px 13px 20px !important;
+    display: none !important;
+}
+
+.toasted:last-of-type {
+    display: block !important;
+}
+
+body {
+    // visibility: hidden;
+    display: none;
+}
+
+.no-dash-text {
+    -moz-hyphens: none !important;
+    -webkit-hyphens: none !important;
+    -ms-hyphens: none !important;
+    hyphens: none !important;
+    letter-spacing: 0 !important;
+}
+
+body.dialog-open {
+    overflow: hidden !important;
+    height: 100vh;
+    position: relative;
+}
+
+
+
+
+.v-overlay__content {
+    contain: inherit !important;
+}

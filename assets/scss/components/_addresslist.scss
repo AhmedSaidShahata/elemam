@@ -1,0 +1,24 @@
+@use "../mixins" as *;
+.default-address-border {
+  border: 2px solid var(--primary) !important;
+  border-right: 4px solid var(--secondary) !important;
+  border-top-left-radius: 8px !important;
+  border-bottom-left-radius: 8px !important ;
+  border-top-right-radius: unset !important;
+  border-bottom-right-radius: unset !important ;
+  @include langLtr{
+    border-top-right-radius: 8px !important;
+    border-bottom-right-radius: 8px !important ;
+    border-top-left-radius: unset !important;
+    border-bottom-left-radius: unset !important ;
+    border-right: 2px solid var(--primary) !important;
+    border-left: 4px solid var(--secondary) !important;
+  }
+}
+
+
+
+.address{
+  margin-inline: -45px 0px !important
+}
+

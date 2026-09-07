@@ -1,0 +1,87 @@
+@use "../mixins" as *;
+
+// Eyebrow + title + accent rule, shared by every landing section.
+.landing-section-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+
+  &--center {
+    align-items: center;
+    text-align: center;
+  }
+
+  // `flex-start` follows the writing direction: right in Arabic, left in English.
+  &--start {
+    align-items: flex-start;
+    text-align: start;
+  }
+
+  &--compact {
+    gap: 16px;
+  }
+
+  &__eyebrow {
+    margin: 0;
+    font-family: var(--font-cairo);
+    font-weight: 700;
+    font-size: 20px;
+    line-height: normal;
+    color: var(--landing-purple);
+    text-transform: uppercase;
+
+    @include screen(767px) {
+      font-size: 16px;
+    }
+  }
+
+  &__title {
+    margin: 0;
+    font-family: var(--font-cairo);
+    font-weight: 700;
+    font-size: 36px;
+    line-height: normal;
+    color: var(--landing-ink);
+
+    @include screen(959px) {
+      font-size: 30px;
+    }
+
+    @include screen(575px) {
+      font-size: 24px;
+    }
+  }
+
+  &__accent {
+    width: 80px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--landing-purple);
+    flex: none;
+  }
+
+  &--compact &__eyebrow {
+    font-size: 14px;
+  }
+
+  &--inverse {
+    .landing-section-header__eyebrow {
+      font-size: 14px;
+      color: #e9e5f2;
+    }
+
+    .landing-section-header__title {
+      font-size: 40px;
+      color: #fff;
+
+      @include screen(959px) {
+        font-size: 32px;
+      }
+
+      @include screen(575px) {
+        font-size: 26px;
+      }
+    }
+  }
+}
