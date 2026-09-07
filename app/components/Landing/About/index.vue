@@ -1,6 +1,6 @@
 <template>
   <section id="about" class="landing-about">
-    <div class="landing-about__header">
+    <div v-reveal class="landing-about__header">
       <LandingSectionHeader
         :eyebrow="$t('landing.about.eyebrow')"
         :title="$t('landing.about.title')"
@@ -78,10 +78,10 @@
     </div>
 
     <div class="landing-about__grid">
-      <div class="landing-about__content">
+      <div v-reveal.start class="landing-about__content">
         <p class="landing-about__intro">{{ $t("landing.about.intro") }}</p>
 
-        <ul class="landing-about__bullets">
+        <ul v-reveal.stagger class="landing-about__bullets">
           <li
             v-for="index in goalsCount"
             :key="index"
@@ -103,7 +103,7 @@
         </ul>
       </div>
 
-      <div class="landing-about__cards">
+      <div v-reveal.end class="landing-about__cards">
         <div class="landing-about__note landing-about__note--financial">
           <div class="landing-about__note-head">
             <span class="landing-about__note-icon-box">
@@ -160,7 +160,7 @@
       </div>
     </div>
 
-    <div class="landing-about__duration">
+    <div v-reveal.zoom class="landing-about__duration">
       <img
         class="landing-about__duration-icon"
         src="/assets/icons/landing/calendar.svg"

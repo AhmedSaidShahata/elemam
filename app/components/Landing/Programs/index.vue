@@ -1,6 +1,6 @@
 <template>
   <section id="programs" class="landing-programs">
-    <div class="landing-programs__header">
+    <div v-reveal class="landing-programs__header">
       <LandingSectionHeader
         :eyebrow="$t('landing.programs.eyebrow')"
         :title="$t('landing.programs.title')"
@@ -11,7 +11,7 @@
     </div>
 
     <div class="landing-programs__grid">
-      <div class="landing-programs__row">
+      <div v-reveal.stagger class="landing-programs__row">
         <div class="landing-programs__stack">
           <article
             v-for="program in stackedPrograms"
@@ -65,7 +65,7 @@
         </article>
       </div>
 
-      <div class="landing-programs__row">
+      <div v-reveal.stagger class="landing-programs__row">
         <article
           v-for="program in quarterPrograms"
           :key="program.key"
@@ -95,7 +95,7 @@
       </div>
     </div>
 
-    <div class="landing-programs__actions">
+    <div v-reveal.zoom class="landing-programs__actions">
       <a class="landing-programs__cta" :href="registerHref">
         {{ $t("landing.programs.cta") }}
         <img

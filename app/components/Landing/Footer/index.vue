@@ -1,6 +1,6 @@
 <template>
   <footer class="landing-footer">
-    <div class="landing-footer__columns">
+    <div v-reveal.stagger class="landing-footer__columns">
       <div class="landing-footer__social">
         <p class="landing-footer__column-title">
           {{ $t("landing.footer.follow_us") }}
@@ -23,7 +23,11 @@
         </p>
         <ul class="landing-footer__links-list">
           <li v-for="link in links" :key="link.key">
-            <a class="landing-footer__link" :href="link.href">
+            <a
+              class="landing-footer__link"
+              :href="link.href"
+              @click="scrollToSection($event, link.href)"
+            >
               {{ $t(`landing.nav.${link.key}`) }}
             </a>
           </li>
@@ -149,6 +153,7 @@
 
 <script setup>
 const { navLinks: links } = useLandingLinks();
+const { scrollToSection } = useLandingScroll();
 
 const socialNetworks = [
   { key: "instagram", href: "https://www.instagram.com/", label: "Instagram" },

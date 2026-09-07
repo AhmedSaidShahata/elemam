@@ -18,9 +18,9 @@
       :title="$t('landing.contact.title')"
     />
 
-    <p class="landing-contact__lead">{{ $t("landing.contact.lead") }}</p>
+    <p v-reveal class="landing-contact__lead">{{ $t("landing.contact.lead") }}</p>
 
-    <div class="landing-contact__row">
+    <div v-reveal.stagger class="landing-contact__row">
       <a class="landing-contact__card" :href="`tel:${phone}`">
         <span class="landing-contact__card-icon-box">
           <img

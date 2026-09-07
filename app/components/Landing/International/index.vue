@@ -1,6 +1,6 @@
 <template>
   <section id="international" class="landing-international">
-    <div class="landing-international__visual">
+    <div v-reveal.start class="landing-international__visual">
       <img
         class="landing-international__visual-media"
         src="/assets/images/landing/international-visual.png"
@@ -18,7 +18,7 @@
       </div>
     </div>
 
-    <div class="landing-international__content">
+    <div v-reveal.end class="landing-international__content">
       <LandingSectionHeader
         align="start"
         :eyebrow="$t('landing.international.eyebrow')"
@@ -39,7 +39,7 @@
           {{ $t("landing.international.features_title") }}
         </h3>
 
-        <div class="landing-international__features-grid">
+        <div v-reveal.stagger class="landing-international__features-grid">
           <article
             v-for="feature in features"
             :key="feature.key"

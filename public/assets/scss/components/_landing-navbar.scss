@@ -1,5 +1,26 @@
 @use "../mixins" as *;
 
+// Holds the navbar's place in the hero's flow. The height is set inline by the
+// component at the moment the bar detaches, so the hero below does not jump.
+.landing-navbar-slot {
+  position: relative;
+  z-index: 4;
+  width: 100%;
+  flex: none;
+}
+
+@keyframes landing-navbar-drop {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+
 .landing-navbar {
   position: relative;
   z-index: 3;
@@ -81,6 +102,7 @@
   }
 
   &__link {
+    position: relative;
     font-family: var(--font-cairo);
     font-weight: 500;
     font-size: 18px;
@@ -92,6 +114,32 @@
 
     &:hover,
     &:focus-visible {
+      color: #483478;
+    }
+
+    // Underline that wipes in on hover and stays put for the section the
+    // visitor is currently reading.
+    &::after {
+      content: "";
+      position: absolute;
+      inset-inline: 0;
+      bottom: -6px;
+      height: 2px;
+      border-radius: 2px;
+      background: #483478;
+      transform: scaleX(0);
+      transform-origin: center;
+      @include transition(0.28);
+    }
+
+    &:hover::after,
+    &:focus-visible::after,
+    &--active::after {
+      transform: scaleX(1);
+    }
+
+    &--active {
+      font-weight: 700;
       color: #483478;
     }
 
@@ -160,6 +208,110 @@
     &:hover,
     &:focus-visible {
       background: #3a2a63;
+    }
+  }
+
+  // Detached state: a compact, full-width bar pinned to the top of the viewport.
+  // `position: fixed` is safe inside the hero's `overflow: hidden` because no
+  // ancestor sets a transform or filter, so the viewport stays the containing
+  // block and the bar is not clipped.
+  &--stuck {
+    position: fixed;
+    top: 0;
+    inset-inline: 0;
+    z-index: 60;
+    width: 100%;
+    height: 72px;
+    padding: 0 151px;
+    border-radius: 0;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 10px 30px rgba(31, 25, 38, 0.12);
+    animation: landing-navbar-drop 0.45s cubic-bezier(0.22, 0.61, 0.24, 1) both;
+
+    .landing-navbar__logo-university {
+      width: 44px;
+      height: 60px;
+    }
+
+    .landing-navbar__logo-otas {
+      width: 96px;
+      height: 37px;
+    }
+
+    .landing-navbar__cta {
+      padding: 8px 22px;
+      font-size: 17px;
+    }
+
+    @include screen(1919px) {
+      padding: 0 5%;
+    }
+
+    @include screen(1279px) {
+      height: auto;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 20px;
+
+      .landing-navbar__links {
+        order: 0;
+        width: auto;
+        height: auto;
+        flex: 1 1 auto;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        gap: 16px;
+        overflow-x: auto;
+        // The strip is scrolled, not decorated - hide the bar itself.
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
+
+      .landing-navbar__link {
+        font-size: 15px;
+      }
+
+      .landing-navbar__logo-university {
+        width: 30px;
+        height: 41px;
+      }
+
+      .landing-navbar__logo-otas {
+        width: 70px;
+        height: 27px;
+      }
+
+      .landing-navbar__logo-divider-wrap {
+        display: none;
+      }
+
+      .landing-navbar__cta {
+        padding: 7px 16px;
+        font-size: 15px;
+      }
+
+      .landing-navbar__lang {
+        padding: 6px 12px;
+      }
+    }
+
+    @include screen(767px) {
+      padding: 8px 16px;
+      gap: 8px;
+
+      // On a phone the two crests would leave the link strip about 70px to
+      // scroll inside. The visitor has already passed the hero's branding by
+      // the time this bar appears, so the links and the CTA get the room.
+      .landing-navbar__logos {
+        display: none;
+      }
     }
   }
 }

@@ -6,7 +6,7 @@
       :title="$t('landing.faq.title')"
     />
 
-    <div class="landing-faq__stack">
+    <div v-reveal.stagger class="landing-faq__stack">
       <div
         v-for="index in questionsCount"
         :key="index"
@@ -37,19 +37,23 @@
         </button>
 
         <div
-          v-show="openIndex === index"
           :id="`faq-answer-${index}`"
-          class="landing-faq__answer"
+          class="landing-faq__answer-wrap"
+          :class="{ 'landing-faq__answer-wrap--open': openIndex === index }"
         >
-          <img
-            class="landing-faq__answer-divider"
-            src="/assets/icons/landing/faq-divider.svg"
-            alt=""
-            aria-hidden="true"
-          />
-          <p class="landing-faq__answer-text">
-            {{ $t(`landing.faq.answer_${index}`) }}
-          </p>
+          <div class="landing-faq__answer-clip">
+            <div class="landing-faq__answer">
+              <img
+                class="landing-faq__answer-divider"
+                src="/assets/icons/landing/faq-divider.svg"
+                alt=""
+                aria-hidden="true"
+              />
+              <p class="landing-faq__answer-text">
+                {{ $t(`landing.faq.answer_${index}`) }}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

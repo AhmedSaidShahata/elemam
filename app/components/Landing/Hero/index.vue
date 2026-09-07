@@ -13,7 +13,7 @@
 
     <LandingNavbar />
 
-    <div class="landing-hero__card">
+    <div v-reveal.stagger class="landing-hero__card">
       <div class="landing-hero__badge">
         <p class="landing-hero__badge-text">{{ $t("landing.hero.badge") }}</p>
         <img

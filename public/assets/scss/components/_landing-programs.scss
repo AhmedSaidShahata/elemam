@@ -144,7 +144,7 @@
 
     // The four-up cards of row 2.
     &--quarter {
-      height: 318px;
+      height: auto;
       flex: 1 1 0;
       min-width: 0;
 
@@ -330,5 +330,34 @@
     @include screen(767px) {
       font-size: 14px;
     }
+  }
+}
+
+.landing-programs__card {
+  transition:
+    transform 0.35s cubic-bezier(0.22, 0.61, 0.24, 1),
+    box-shadow 0.35s cubic-bezier(0.22, 0.61, 0.24, 1);
+
+  &:hover {
+    transform: translate3d(0, -6px, 0);
+    box-shadow: 0 18px 38px rgba(72, 52, 120, 0.16);
+  }
+
+  .landing-programs__card-image {
+    transition: transform 0.6s cubic-bezier(0.22, 0.61, 0.24, 1);
+  }
+
+  &:hover .landing-programs__card-image {
+    transform: scale(1.06);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-programs__card,
+  .landing-programs__card:hover,
+  .landing-programs__card-image,
+  .landing-programs__card:hover .landing-programs__card-image {
+    transform: none;
+    transition: none;
   }
 }

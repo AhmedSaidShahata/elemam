@@ -1,0 +1,106 @@
+@use "../mixins" as *;
+
+// Motion primitives shared by the landing sections: the scroll-reveal states
+// driven by the `v-reveal` directive, and the scroll offsets that keep the
+// fixed header from covering a section the visitor jumped to.
+
+$reveal-duration: 0.72s;
+$reveal-ease: cubic-bezier(0.22, 0.61, 0.24, 1);
+
+// Clearance for the fixed header, so an in-page jump lands below the bar
+// instead of behind it. Also used by the navbar's own offsets.
+:root {
+  --landing-header-clearance: 104px;
+
+  @include screen(1279px) {
+    --landing-header-clearance: 132px;
+  }
+}
+
+#about,
+#programs,
+#international,
+#faq,
+#contact {
+  // Applies to both the smooth scroll in `useLandingScroll` and any plain
+  // `#hash` navigation, including a deep link opened straight from the URL.
+  scroll-margin-top: var(--landing-header-clearance);
+}
+
+// The hidden start state is scoped to `html.js-reveal`. Without JavaScript the
+// class is never set, so every one of these elements renders as-is.
+html.js-reveal {
+  [data-reveal],
+  [data-reveal-stagger] > * {
+    opacity: 0;
+    transition:
+      opacity $reveal-duration $reveal-ease var(--reveal-delay, 0ms),
+      transform $reveal-duration $reveal-ease var(--reveal-delay, 0ms),
+      filter $reveal-duration $reveal-ease var(--reveal-delay, 0ms);
+  }
+
+  // Default travel for a staggered container's children, and for `v-reveal`.
+  [data-reveal],
+  [data-reveal-stagger] > * {
+    transform: translate3d(0, 40px, 0);
+  }
+
+  [data-reveal="down"] {
+    transform: translate3d(0, -40px, 0);
+  }
+
+  [data-reveal="left"] {
+    transform: translate3d(-48px, 0, 0);
+  }
+
+  [data-reveal="right"] {
+    transform: translate3d(48px, 0, 0);
+  }
+
+  // Direction-aware variants: `start` always arrives from the side the locale
+  // reads from, so the same markup mirrors correctly in Arabic and English.
+  [data-reveal="start"] {
+    transform: translate3d(-48px, 0, 0);
+  }
+
+  [data-reveal="end"] {
+    transform: translate3d(48px, 0, 0);
+  }
+
+  &[dir="rtl"] [data-reveal="start"] {
+    transform: translate3d(48px, 0, 0);
+  }
+
+  &[dir="rtl"] [data-reveal="end"] {
+    transform: translate3d(-48px, 0, 0);
+  }
+
+  [data-reveal="zoom"] {
+    transform: scale(0.92);
+  }
+
+  [data-reveal="blur"] {
+    transform: translate3d(0, 24px, 0);
+    filter: blur(10px);
+  }
+
+  [data-reveal].is-revealed,
+  [data-reveal-stagger].is-revealed > * {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+// A visitor who asked for less motion gets the finished layout with no travel.
+@media (prefers-reduced-motion: reduce) {
+  html.js-reveal {
+    [data-reveal],
+    [data-reveal-stagger] > * {
+      opacity: 1;
+      transform: none;
+      filter: none;
+      transition: none;
+    }
+  }
+}

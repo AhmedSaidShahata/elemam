@@ -143,3 +143,18 @@
     }
   }
 }
+
+.landing-contact__card {
+  &:hover,
+  &:focus-visible {
+    transform: translate3d(0, -4px, 0);
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.22);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-contact__card:hover,
+  .landing-contact__card:focus-visible {
+    transform: none;
+  }
+}
