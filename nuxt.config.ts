@@ -48,6 +48,11 @@ export default defineNuxtConfig({
       currentEnv: import.meta.env.VITE_ENV_MODE
     }
   },
+  nitro: {
+    prerender: {
+      routes: [process.env.NUXT_APP_BASE_URL || "/", `${process.env.NUXT_APP_BASE_URL || "/"}en`],
+    },
+  },
   pages: true,
   app: {
     head: {

@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <LandingLoader />
     <v-main class="pt-0">
       <slot />
     </v-main>

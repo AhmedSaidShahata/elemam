@@ -59,8 +59,12 @@ export const useDefaultCompanyStore = defineStore("defaultCompany", () => {
 
       return company;
     } catch (error) {
+      // Every other store this app calls on mount swallows its own fetch
+      // errors the same way - this one used to rethrow, and since it's the
+      // only one awaited from a blocking SSR plugin (defaultCompany.server.js,
+      // via `dependsOn`), a failed request here took the whole page down with
+      // a 500 instead of just missing company data.
       console.error("Error setting default company:", error);
-      throw error;
     }
   };
 
