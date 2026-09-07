@@ -1,0 +1,155 @@
+@keyframes animate_intro {
+    0% {
+        background-position: right;
+        background-size: 110% 110%;
+    }
+
+    20% {
+        background-position: left;
+        background-size: 130% 130%;
+    }
+
+    40% {
+        background-position: center;
+        background-size: 160% 160%;
+    }
+
+    60% {
+        background-position: bottom;
+        background-size: 120% 120%;
+    }
+
+    80% {
+        background-position: top;
+        background-size: 140% 140%;
+    }
+
+    100% {
+        background-position: right;
+        background-size: 110% 110%;
+    }
+}
+
+
+@keyframes movebounce {
+    0% {
+        transform: translate(0, -10%);
+    }
+
+    50% {
+        transform: translate(0, -5%);
+    }
+
+    100% {
+        transform: translate(0, -10%);
+    }
+}
+
+
+
+@keyframes moveLogo {
+    0% {
+        position: fixed;
+        top: 600px;
+        left: 0;
+        z-index: 999999;
+        transform: rotate(-50deg);
+
+        width: 200px;
+        height: 200px;
+
+    }
+
+    60% {
+        position: fixed;
+        left: 50%;
+        transform: rotate(-50deg);
+
+        width: 200px;
+        height: 200px;
+        z-index: 999999;
+    }
+
+
+
+    100% {
+        position: fixed;
+        top: 0;
+        left: 90%;
+
+        width: 200px;
+        height: 200px;
+        z-index: 999999;
+
+
+    }
+}
+
+
+@keyframes moveLogoReverse {
+    0% {
+        position: fixed;
+        top: 600px;
+        right: 0;
+        z-index: 999999;
+        transform: rotate(-150deg);
+
+        width: 200px;
+        height: 200px;
+
+    }
+
+    50% {
+        position: fixed;
+        right: 50%;
+        transform: rotate(-150deg);
+        z-index: 999999;
+    }
+
+    100% {
+        position: fixed;
+        top: 0;
+        right: 90%;
+        transform: rotate(-100deg);
+        z-index: 999999;
+        width: 100px;
+        height: 100px;
+
+    }
+}
+
+@keyframes preloaderLayer {
+    0% {
+        width: 33.3%;
+    }
+
+    100% {
+        width: 0;
+    }
+
+}
+
+@keyframes preloaderWrpper {
+    0% {
+        visibility: visible;
+    }
+
+    100% {
+        visibility: hidden;
+    }
+}
+
+
+
+
+@keyframes plane {
+    0% {
+        top: 24%;
+        margin: 176px -305px;
+    }
+
+    100% {
+        top: 24%;
+        margin: 0 -5px;
+    }
+}

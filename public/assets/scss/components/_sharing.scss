@@ -1,0 +1,67 @@
+@use "../mixins" as *;
+
+.sharing {
+  top: 10px;
+  position: absolute;
+  left: 10px;
+  border-radius: 50%;
+  background-color: rgba(225, 225, 225, 0.6);
+  // padding: 4px 4px;
+  box-shadow: 0 2px 4px 0 rgba(188, 188, 188, 0.5);
+  z-index: 1;
+
+  @include langLtr {
+    left: unset;
+    right: 10px;
+  }
+
+  &__title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    letter-spacing: .0125em;
+    padding: 16px 24px 10px;
+  }
+
+  &__value {
+    width: 0 !important;
+    height: 0 !important;
+    opacity: 0 !important;
+    position: absolute;
+    margin: -403px -285px !important;
+  }
+
+  button.v-btn {
+    background: transparent;
+    border-radius: 100%;
+    width: 45px;
+    height: 45px;
+  }
+}
+
+.share {
+  position: absolute;
+  left: 23px;
+  top: 10px;
+  transform: translate(-50%, 0);
+  width: 40px;
+  height: 40px;
+  border-radius: 50% !important;
+  z-index: 9;
+
+  @include langLtr {
+    left: unset;
+    right: -10px;
+  }
+}
+
+
+.sharing-dialog {
+  .sharing-card {
+    border-radius: 16px !important;
+
+    .custom-tooltip {
+      top: 32% !important;
+      background-color: rgba(97, 97, 97, .9) !important;
+    }
+  }
+}

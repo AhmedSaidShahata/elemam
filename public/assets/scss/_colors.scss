@@ -1,0 +1,102 @@
+body {
+
+    .v-application {
+        &--wrap {
+            min-height: revert;
+        }
+
+        .primary {
+            background-color: var(--primary) !important;
+            border-color: var(--primary) !important;
+
+            &--text {
+                color: var(--primary) !important;
+                caret-color: var(--primary) !important;
+            }
+
+            &--fill {
+                fill: var(--primary);
+            }
+
+            &--stroke {
+                stroke: var(--primary);
+            }
+        }
+
+        .dark-primary {
+            background-color: var(--dark-primary) !important;
+            border-color: var(--dark-primary) !important;
+
+            &--text {
+                color: var(--dark-primary) !important;
+                caret-color: var(--dark-primary) !important;
+            }
+
+            &--fill {
+                fill: var(--dark-primary);
+            }
+        }
+
+        .light-primary {
+            background-color: var(--light-primary) !important;
+            border-color: var(--light-primary) !important;
+
+            &--text {
+                color: var(--light-primary) !important;
+                caret-color: var(--light-primary) !important;
+            }
+
+            &--fill {
+                fill: var(--light-primary);
+            }
+        }
+
+        .secondary {
+            background-color: var(--secondary) !important;
+            border-color: var(--secondary) !important;
+
+            &--text {
+                color: var(--secondary) !important;
+                caret-color: var(--secondary) !important;
+            }
+
+            &--fill {
+                fill: var(--secondary);
+            }
+
+            &--stroke {
+                stroke: var(--secondary);
+            }
+        }
+
+        .dark-secondary {
+            background-color: var(--dark-secondary) !important;
+            border-color: var(--dark-secondary) !important;
+
+            &--text {
+                color: var(--dark-secondary) !important;
+                caret-color: var(--dark-secondary) !important;
+            }
+
+            &--fill {
+                fill: var(--dark-secondary);
+            }
+        }
+
+        .light-secondary {
+            background-color: var(--light-secondary) !important;
+            border-color: var(--light-secondary) !important;
+
+            &--text {
+                color: var(--light-secondary) !important;
+                caret-color: var(--light-secondary) !important;
+            }
+
+            &--fill {
+                fill: var(--light-secondary);
+            }
+        }
+    }
+
+
+}

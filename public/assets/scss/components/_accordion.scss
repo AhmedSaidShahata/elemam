@@ -1,0 +1,242 @@
+@use "../mixins" as *;
+.custom-row-spacing {
+  --v-col-gap-y: 0px !important;
+  --v-col-gap-x: 60px !important;
+}
+
+.custom-accordion {
+  &__content {
+    .v-expansion-panel-text__wrapper {
+      padding: 0 4px 6px 7px !important;
+    }
+
+    &__table {
+      table {
+        table-layout: auto !important;
+        width: 100% !important;
+        height: 100% !important;
+        background: transparent !important;
+        border-collapse: collapse !important;
+
+        td,
+        th {
+          vertical-align: middle !important;
+          border-bottom: none !important;
+          padding: 8px 12px !important;
+          font-size: 16px !important;
+        }
+
+        td {
+          height: 100% !important;
+          min-height: 30px !important;
+          white-space: normal !important;
+          word-break: normal;
+        }
+      }
+
+      /* Mobile Zebra Striping (Single Column) */
+      &:nth-child(odd) {
+        table tbody tr td {
+          background: var(--light-primary) !important;
+        }
+      }
+
+      /* Desktop Zebra Striping (Two Columns) */
+      @include lg-and-up {
+        &:nth-child(odd) {
+          table tbody tr td {
+            background: transparent !important;
+          }
+        }
+
+        // Row 1 (1,2), Row 3 (5,6), Row 5 (9,10)
+        &:nth-child(4n-3),
+        &:nth-child(4n-2) {
+          table tbody tr td {
+            background: var(--light-primary) !important;
+          }
+        }
+      }
+    }
+  }
+
+  &__option {
+    border-radius: 8px !important;
+
+    
+    .v-expansion-panel-title {
+      &:hover .v-expansion-panel-title__overlay,
+      &--active .v-expansion-panel-title__overlay,
+      &:focus .v-expansion-panel-title__overlay {
+        opacity: 0 !important;
+      }
+    }
+
+    button {
+      width: auto;
+      min-height: auto !important;
+
+      &:focus::before {
+        opacity: 0 !important;
+      }
+    }
+
+    &::before,
+    &::after {
+      box-shadow: none !important;
+      border: none !important;
+    }
+  }
+}
+
+
+.btn__night-icon {
+  border: 1px solid #000;
+  border-radius: 17.5px !important;
+  height: auto !important;
+
+  span {
+    font-size: 16px !important;
+  }
+
+  &:hover::before {
+    opacity: 0 !important;
+  }
+}
+
+
+.custom-accordion-more-content {
+  padding-bottom: 8px;
+
+  &__option {
+    position: relative;
+    border-radius: 8px !important;
+
+    button {
+      min-height: auto !important;
+
+      &:focus::before {
+        opacity: 0 !important;
+      }
+    }
+
+    &::before,
+    &::after {
+      box-shadow: none !important;
+      border: none !important;
+    }
+  }
+}
+
+
+.custom-accordion-more-content
+  .custom-accordion-more-content__option:not(:last-child)
+  button::before {
+  content: "";
+  position: absolute;
+  width: 90%;
+  height: 1px;
+  background: #e9e9e9;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+
+.custom-accordion-more-content__option.v-expansion-panel--active
+  + .v-expansion-panel {
+  margin-top: 0 !important;
+}
+
+
+.img-inside-content {
+  width: 150px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+
+  @include screen(1172px) {
+    margin-bottom: 10px !important;
+  }
+}
+
+
+.divider-content {
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background: #e9e9e9;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+
+.bullate-icon {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--primary);
+}
+
+.bullat-wrapper {
+  p {
+    width: 25%;
+
+    @media (max-width: 991px) {
+      width: 100%;
+    }
+  }
+}
+
+
+.close-btn {
+  border-radius: 17.5px !important;
+  height: auto !important;
+  background-color: var(--primary);
+
+  position: absolute !important;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  z-index: 10;
+  color: white !important;
+  text-transform: none;
+
+  .v-btn__content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px !important;
+
+    span {
+      line-height: 2 !important;
+    }
+  }
+
+  &:hover::before {
+    opacity: 0 !important;
+  }
+}
+
+
+.booking-table {
+  .v-row {
+    margin: 0 -10px;
+  }
+}
+
+
+.accordion-font {
+  font-size: 18px;
+
+  @include screen(600px) {
+    font-size: 14px;
+  }
+}

@@ -1,0 +1,135 @@
+@use "../mixins" as *;
+
+.customer-reviews {
+  &__card {
+    position: relative;
+    border-radius: 8px !important;
+    min-height: 293px;
+    max-height: 293px;
+    background-size: 100% 100%;
+
+    @include minScreen(1400px) {
+      height: 37vh;
+    }
+  }
+
+  &__personal-image {
+    position: relative;
+    display: inline-block;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: -3px;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 55px;
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+      mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 66 79'><path d=\"M44.9146 77.2779C45.5569 78.2814 46.8948 78.5787 47.8648 77.8868C51.8601 75.0371 55.3418 71.5201 58.1543 67.4855C61.3785 62.8603 63.6601 57.6453 64.8689 52.1383C66.0776 46.6312 66.1899 40.9401 65.1992 35.3897C64.2085 29.8393 62.1343 24.5383 59.095 19.7895C56.0557 15.0408 52.1108 10.9371 47.4855 7.71292C42.8603 4.48871 37.6453 2.20709 32.1383 0.998313C26.6312 -0.21046 20.94 -0.322708 15.3896 0.667977C10.548 1.53216 5.89621 3.22081 1.63512 5.65533C0.600567 6.24641 0.310234 7.58575 0.952534 8.58931C1.59484 9.59287 2.92634 9.88002 3.9642 9.29476C7.74555 7.1624 11.8641 5.68027 16.1478 4.91567C21.1404 4.02455 26.2596 4.12552 31.2132 5.21281C36.1667 6.3001 40.8576 8.35242 45.0181 11.2526C49.1785 14.1528 52.7269 17.844 55.4608 22.1155C58.1946 26.3871 60.0604 31.1552 60.9515 36.1478C61.8426 41.1404 61.7417 46.2596 60.6544 51.2132C59.5671 56.1668 57.5148 60.8577 54.6146 65.0181C52.1262 68.5878 49.0554 71.707 45.5354 74.2476C44.5692 74.945 44.2723 76.2743 44.9146 77.2779Z\"/></svg>") no-repeat center / contain;
+      -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 66 79'><path d=\"M44.9146 77.2779C45.5569 78.2814 46.8948 78.5787 47.8648 77.8868C51.8601 75.0371 55.3418 71.5201 58.1543 67.4855C61.3785 62.8603 63.6601 57.6453 64.8689 52.1383C66.0776 46.6312 66.1899 40.9401 65.1992 35.3897C64.2085 29.8393 62.1343 24.5383 59.095 19.7895C56.0557 15.0408 52.1108 10.9371 47.4855 7.71292C42.8603 4.48871 37.6453 2.20709 32.1383 0.998313C26.6312 -0.21046 20.94 -0.322708 15.3896 0.667977C10.548 1.53216 5.89621 3.22081 1.63512 5.65533C0.600567 6.24641 0.310234 7.58575 0.952534 8.58931C1.59484 9.59287 2.92634 9.88002 3.9642 9.29476C7.74555 7.1624 11.8641 5.68027 16.1478 4.91567C21.1404 4.02455 26.2596 4.12552 31.2132 5.21281C36.1667 6.3001 40.8576 8.35242 45.0181 11.2526C49.1785 14.1528 52.7269 17.844 55.4608 22.1155C58.1946 26.3871 60.0604 31.1552 60.9515 36.1478C61.8426 41.1404 61.7417 46.2596 60.6544 51.2132C59.5671 56.1668 57.5148 60.8577 54.6146 65.0181C52.1262 68.5878 49.0554 71.707 45.5354 74.2476C44.5692 74.945 44.2723 76.2743 44.9146 77.2779Z\"/></svg>") no-repeat center / contain;
+      background-color: var(--primary);
+
+      @include langLtr {
+        right: unset;
+        left: -3px;
+        transform: scaleX(-1);
+      }
+    }
+
+  }
+
+  &__name {
+    font-size: 1.2rem;
+  }
+
+  &__headline {
+    font-size: 0.99rem;
+    min-height: 64px;
+    max-height: 64px;
+
+  }
+
+  &__home-review-text-container {
+    background: #F5F5F5;
+    border-radius: 9px;
+    overflow-y: auto;
+    min-height: 134px;
+    max-height: 134px;
+  }
+
+  &__review-text-container {
+    background: #F5F5F5;
+    border-radius: 9px;
+    overflow-y: auto;
+    min-height: 175px;
+    max-height: 175px;
+  }
+
+  &__review-text {
+    font-size: 1rem;
+
+    @include minScreen(1264px) {
+      max-width: 69%;
+    }
+  }
+
+  &__home-review-image-container {
+    background: #F5F5F5;
+    border-radius: 9px;
+    min-height: 134px;
+    max-height: 134px;
+  }
+
+  &__review-image-container {
+    background: #F5F5F5;
+    border-radius: 9px;
+    min-height: 175px;
+    max-height: 175px;
+  }
+
+  &__review-image {
+    img {
+      border-radius: 9px;
+      object-fit: unset !important;
+    }
+  }
+
+  &__video-container {
+    position: relative;
+    height: 100%;
+
+    a {
+      width: 100%;
+    }
+
+    img {
+      border-radius: 9px;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__video-play-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 51px;
+    height: 34px;
+    border-radius: 8px;
+    transform: translate(-50%, -50%);
+    display: inline-block;
+    background-color: red;
+    -webkit-mask: none;
+    mask: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 68 48'><path fill='red' d='M66.52 7.43A8 8 0 0059.27 2H8.73A8 8 0 001.48 7.43a82.91 82.91 0 000 33.14A8 8 0 008.73 46h50.54a8 8 0 007.25-5.43 82.91 82.91 0 000-33.14z'/><path fill='white' d='M27 34V14l18 10z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    content: "";
+  }
+
+}

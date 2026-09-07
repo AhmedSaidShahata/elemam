@@ -1,0 +1,185 @@
+@use "../mixins" as *;
+.car {
+    &-details {
+        min-height: 100vh;
+        &__icons {
+            border: solid 1px #d2d1d1;
+            margin: 0 0 0 20px !important; 
+            border-radius: var(--border-radius-small) !important;
+            &__icon{
+                width: 50%;
+                border-right: solid 1px #d2d1d1;
+                @include langLtr{
+                    border-left: solid 1px #d2d1d1;
+                    border-right: unset;
+                }
+                &:first-child {
+                    border-right-color: white;
+
+                    @include langLtr {
+                        border-left-color: white;
+                        border-right: unset;
+                    }
+                }
+                @media (max-width: 365px) {
+                    &:nth-child(4),
+                    &:nth-child(7),
+                    &:nth-child(10),
+                    &:nth-child(13),
+                    &:nth-child(16) {
+                        border-right-color: white;
+
+                        @include langLtr {
+                            border-left-color: white;
+                            border-right: unset;
+                        }
+                    }
+                }
+                @media (min-width: 1264px) {
+                    &:nth-child(4),
+                    &:nth-child(7),
+                    &:nth-child(10),
+                    &:nth-child(13),
+                    &:nth-child(16) {
+                        border-right-color: white;
+
+                        @include langLtr {
+                            border-left-color: white;
+                            border-right: unset;
+                        }
+                    }
+                }
+
+                @include screen(341px) {
+                    border: unset !important;
+                }
+
+                p {
+                    max-width: 100%;
+
+                    @include screen(550px) {
+                        max-width: 70%;
+                    }
+                }
+            }
+
+            @include langLtr {
+                margin: 0 20px 0 0 !important;
+            }
+
+            @include sm-and-down {
+                margin: 0 !important;
+            }
+
+        }
+
+        .desc {
+            line-height: 23px;
+            max-height:110px;
+            min-height: 89px;
+            overflow-y: auto;
+            @include screen(1280px) {
+                min-height: unset;
+                max-height: unset;
+            }
+        }
+
+        .show-result {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translate(-48%, 37%);
+            z-index: 999;
+            padding: 5px 5px;
+            color: #fff !important;
+            border-radius: 15.5px;
+            font-size: 13px;
+            width: 119px;
+        }
+
+        table {
+            thead {
+                padding: 18px 16px 12px 28px;
+                background-color: #f5f5f5;
+            }
+
+        }
+
+        .hide {
+            display: none;
+        }
+
+        .v-expansion-panel--active {
+            .show-result {
+                display: none !important;
+
+                &.hide {
+                    display: block !important;
+                    bottom: -17px;
+                }
+            }
+        }
+
+        &__avilable {
+            text-align: left;
+
+            @include langLtr {
+                text-align: right;
+            }
+        }
+
+        .type {
+            @include sm-and-down {
+                font-size: 12px;
+            }
+
+        }
+
+    }
+
+    &__empty-state {
+        min-height: 400px;
+    }
+
+    &-offers {
+        padding-top: 100px;
+        min-height: 100vh;
+
+        &__icons {
+            padding: 7px 14px 6px;
+            border: solid 1px #d2d1d1;
+            margin: 0 !important;
+
+
+            @include mobile {
+                padding: 7px 8px 6px;
+            }
+
+            .border {
+                border: 1px solid #d2d1d1;
+                margin: 0 22px;
+                height: 88%;
+
+                @include screen(500px) {
+                    margin: 0 6px;
+                }
+            }
+        }
+
+    }
+
+    &-swiper {
+        &__card {
+            height: unset !important;
+
+            .v-card {
+                height: 100%;
+            }
+        }
+
+        .swiper-wrapper {
+            margin-bottom: 12px;
+        }
+    }
+
+}

@@ -1,0 +1,216 @@
+@use "../mixins" as *;
+
+.header-elmsafer {
+  position: relative;
+  z-index: 99;
+  background: #201F3F;
+}
+
+.header-elmsafer-root {
+  position: sticky;
+  top: 0;
+  z-index: 99;
+  background: #201F3F;
+  color: #fff;
+  width: 100%;
+
+  .header-elmsafer__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 14px 24px;
+  }
+
+  .header-elmsafer__start {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+
+  .header-elmsafer__center {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    min-width: 0;
+
+    .header-elegant__settings-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background-color: #201F3F !important;
+    }
+
+    .country-icon {
+      border: 2px solid #CFE7E8 !important;
+      border-radius: 5px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      height: 20px !important;
+      width: 28px !important;
+      overflow: hidden !important;
+      padding: 0 !important;
+
+      .v-icon {
+        margin: 0 !important;
+        padding: 0 !important;
+        font-size: 25px !important;
+        height: 20px !important;
+        width: 28px !important;
+        line-height: 1 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+    }
+
+    &__setting-flag-img {
+      width: 22px;
+      height: 16px;
+      object-fit: cover;
+      border-radius: 3px;
+    }
+  }
+
+  .header-elmsafer__logo {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: #fff;
+    text-decoration: none;
+    flex-shrink: 0;
+    min-width: 140px;
+    margin-top: -10px;
+  }
+
+  .header-elmsafer__logo img {
+    display: block;
+    object-fit: contain;
+  }
+
+  .header-elmsafer__logo-name {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+
+  .header-elmsafer__drawer {
+    margin-top: 0;
+  }
+
+  .header-elmsafer__profile-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: #201F3F;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: #fff;
+    font-weight: 600;
+    min-height: 42px;
+    font-size: 14px;
+  }
+
+  .header-elmsafer__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 24px;
+    min-height: 40px;
+    border-radius: 999px;
+    background: #201f3f;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    font-size: 14px;
+  }
+
+  .header-elmsafer__notification-btn {
+    min-width: 40px;
+    min-height: 40px;
+    padding: 8px;
+    border-radius: 999px;
+    background-color: #201F3F !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  }
+
+  .notification-icon {
+    background-color: #fff !important;
+  }
+}
+
+.header-elmsafer-spacer {
+  height: 0px;
+  pointer-events: none;
+}
+
+.header-elmsafer-mobile {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  background: #201f3f !important;
+  height: 88px !important;
+  .v-toolbar__content {
+    height: 88px !important;
+  }
+}
+
+.header-elmsafer-mobile__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 16px;
+}
+
+.header-elmsafer-mobile__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  .header__notification-btn{
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    .notification-icon{
+      background-color: #fff !important;
+    }
+  }
+}
+
+.header-elmsafer-mobile__logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #fff;
+}
+
+.header-elmsafer-mobile__logo img {
+  object-fit: contain;
+}
+
+@media (max-width: 960px) {
+  .header-elmsafer-root {
+    .header-elmsafer__inner {
+      padding: 10px 16px;
+      gap: 10px;
+    }
+  }
+}
+
+.header-elmsafer__menu {
+    border-radius: 12px !important;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18) !important;
+  }

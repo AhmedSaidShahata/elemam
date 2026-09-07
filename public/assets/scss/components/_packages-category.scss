@@ -1,0 +1,69 @@
+@use "../mixins" as *;
+.packages-category {
+    &__header {
+        min-height: 430px;
+        margin-top: 63px;
+        background-image: url("/assets/images/packages-category/bg.webp");
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        min-height: 322px;
+
+        @include screen(1264px) {
+            margin-top: 0;
+        }
+
+        &__container {
+            h2 {
+                display: inline-block;
+                border-radius: 16px;
+                background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, #000000 121.43%);
+
+                color: #fff;
+
+                @include langLtr {
+                    background-image: linear-gradient(to right, #000000, rgba(255, 255, 255, 0));
+                }
+            }
+        }
+
+
+    }
+
+    &__card {
+        position: relative;
+        border-radius: 8px !important;
+        height: 230px;
+        padding: 10px 14px 20px 14px;
+        background-size: 100% 100%;
+        background-color: transparent !important;
+
+        --v-high-emphasis-opacity: 1;
+        color: #ffffff !important;
+
+        h3, p {
+            color: #ffffff !important;
+        }
+
+    }
+
+    &__img {
+        position: absolute;
+        border-radius: 8px !important;
+        inset: 0;
+        z-index: 0;
+        object-fit: cover;
+        filter: brightness(0.55);
+        object-position: center;
+      }
+}
+
+
+.blog-title{
+          line-height: 1.35;
+        min-height: calc(1.35em * 2);
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+
+}

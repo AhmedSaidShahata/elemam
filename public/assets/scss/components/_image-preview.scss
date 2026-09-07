@@ -1,0 +1,28 @@
+.image-previewer {
+    height: 48px;
+    width: 48px;
+    border-radius: 4px;
+    position: relative;
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    &__uploader {
+        background-color: #fff;
+        object-fit: contain;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        position: absolute;
+        z-index: 3;
+        right: -1px;
+        top: -5px;
+        border: 1px solid #000;
+        i {
+            color: var(--primary);
+        }
+    }
+}

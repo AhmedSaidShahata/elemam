@@ -1,0 +1,126 @@
+@use "../mixins" as *;
+.upload-file {
+    &__remove {
+        padding: 0px 13px !important;
+        height: 20px !important;
+        position: absolute;
+
+    }
+
+    &__progress {
+        height: 15px !important;
+        border-radius: 10px !important;
+        font-size: 11px;
+    }
+
+    &__images {
+        height: auto;
+        width: auto;
+        margin: 0;
+    }
+
+    &__example {
+        position: relative;
+        height: 64px;
+        width: 80px;
+        border-radius: 8px;
+
+        &__text {
+            position: absolute;
+            bottom: 0;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            width: 100%;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+        &__img{
+          width:100px;
+          height:64px;
+          border-radius: 8px;
+        }
+    }
+
+    &__custom {
+        position: relative;
+        border: 2px dashed #979797;
+        text-align: center;
+        padding: 40px 10px;
+        border-radius: 8px;
+        background-size: cover;
+
+        &__remove {
+            width: 40px;
+            position: absolute;
+            top: 0;
+            z-index: 99;
+        }
+
+        &__bg {
+            background-color: rgba(255, 255, 255, 0.57);
+            padding: 20px 10px;
+            width: 343px;
+            border-radius: 8px;
+            margin: 0 auto;
+        }
+
+        .v-file-input,
+        .v-input__slot {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100% !important;
+            height: 100% !important;
+            opacity: 0;
+        }
+    }
+
+    .v-file-input {
+        .v-field__input {
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            flex-wrap: nowrap !important;
+            display: block !important;
+        }
+    }
+
+    .mdi-close,
+    .v-input__prepend-outer {
+        display: none !important;
+    }
+
+    .v-text-field__slot {
+        z-index: 9 !important;
+    }
+
+    .v-text-field .v-input__append-inner {
+        position: absolute !important;
+        left: 10px;
+        cursor: pointer !important;
+        background-color: #fff !important;
+        @include langLtr {
+            left: unset !important;
+            right: 10px;
+
+        }
+    }
+
+    .v-file-input .v-file-input__text .v-chip {
+        margin: 4px 15px !important;
+    }
+
+    .v-messages[role="alert"] {
+        .v-messages__message {
+            color: #ef1e1e !important;
+        }
+    }
+
+    .v-file-input__text {
+        display: none !important;
+    }
+}

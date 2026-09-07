@@ -1,0 +1,3 @@
+[submodule "Git-Hooks"]
+	path = Git-Hooks
+	url = ssh://spgit.net/Git-Hooks

@@ -1,0 +1,60 @@
+@use "../mixins" as *;
+.destinations {
+  background-size: cover;
+  min-height: 300px;
+  background-position: center center;
+
+  &__card {
+    background-size: cover !important;
+    border-radius: 8px !important;
+    height: 280px;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  &__header {
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    min-height: 350px;
+
+    .gray-bar {
+      background-color: rgb(234 234 234 / 77%);
+      height: 15px;
+    }
+
+    &__country {
+      min-width: 114px;
+      height: 41px;
+      border-radius: 40.5px;
+      background-color: rgba(255, 255, 255, 0.77);
+      padding: 30px 35px 40px 35px;
+    }
+  }
+
+  &__slider {
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+
+  &__filter {
+    .v-select__selections {
+      justify-content: center;
+      width: 100%;
+      margin-left: -12px;
+
+      @include langLtr {
+        margin-left: 0;
+        margin-right: -12px;
+      }
+
+      & > input {
+        display: none;
+      }
+    }
+  }
+
+  &-description{
+    border-radius: 10px !important;
+    border: 1px solid #e0e0e0 !important;
+  }
+}

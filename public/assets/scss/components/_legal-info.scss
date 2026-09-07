@@ -1,0 +1,18 @@
+.legal-info {
+  min-height: 54px;
+  gap: 17px;
+  // padding-bottom: 10px;
+
+
+
+  &__seperate {
+    height: 20px;
+    border: 1px solid #fff;
+    position: relative;
+    top: 4px;
+  }
+}
+
+.legal-info>.d-flex:last-child .legal-info__seperate {
+  display: none;
+}
