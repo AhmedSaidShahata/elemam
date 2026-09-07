@@ -345,6 +345,12 @@
       opacity 0.3s ease,
       visibility 0s linear 0.3s;
 
+    // Nothing above the breakpoint can open the drawer (see `&__menu-toggle`),
+    // so neither this nor the drawer itself needs to exist there at all.
+    @include minScreen(1280px) {
+      display: none;
+    }
+
     &--open {
       opacity: 1;
       visibility: visible;
@@ -370,6 +376,12 @@
     transform: translateX(100%);
     transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.24, 1);
     overflow-y: auto;
+
+    // Nothing above the breakpoint can open this (see `&__menu-toggle`), so
+    // it stays fully out of the layout there instead of just sitting closed.
+    @include minScreen(1280px) {
+      display: none;
+    }
 
     &--open {
       transform: translateX(0);
