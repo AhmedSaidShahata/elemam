@@ -1,0 +1,1 @@
+import{In as e,P as t}from"./BO78ljh0.js";import{n}from"./DRgLcHW_.js";var r=n(`companyStore`,()=>{let n=e({}),r=e([]),i=t(()=>n),a=t(()=>r);async function o(e){n.value=e[0]}return{company:n,licenses:r,getCompany:i,getLicenses:a,setCompany:o}});export{r as t};

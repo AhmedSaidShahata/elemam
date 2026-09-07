@@ -1,1 +1,0 @@
-import{d as e,l as t}from"./DiijHDRD.js";import{t as n}from"./D_OfZKF2.js";var r=t(()=>{let t=n().company.value;if(!(!t||Object.keys(t).length===0)&&!t?.license?.specifications?.some(e=>e.code===`has_offers`&&e.value===1))return e(`/`)});export{r as default};

@@ -1,0 +1,1 @@
+import{d as e,l as t}from"./0tL5qcfz.js";import{t as n}from"./DZjjt3Ih.js";var r=t(()=>{let t=n().company.value;if(!(!t||Object.keys(t).length===0)&&!t?.license?.specifications?.some(e=>e.code===`has_offers`&&e.value===1))return e(`/`)});export{r as default};
