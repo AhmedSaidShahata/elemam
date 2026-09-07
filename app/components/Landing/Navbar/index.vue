@@ -104,11 +104,9 @@
 
     <div
       id="landing-navbar-drawer"
+      ref="drawerEl"
       class="landing-navbar__drawer"
-      :class="{
-        'landing-navbar__drawer--open': drawerOpen,
-        'landing-navbar__drawer--no-transition': suppressDrawerTransition,
-      }"
+      :class="{ 'landing-navbar__drawer--open': drawerOpen }"
       role="dialog"
       :aria-modal="drawerOpen ? 'true' : undefined"
       :aria-label="$t('landing.nav.aria_label')"
@@ -200,14 +198,24 @@ const nextLocaleLabel = computed(() => nextLocaleCode.value.toUpperCase());
 // viewport and back out. Suppressing the transition for the two paints
 // around the flip removes that phantom swipe without touching the drawer's
 // own open/close animation once the frame after has already landed.
-const suppressDrawerTransition = ref(false);
+//
+// This toggles the suppression class directly on the element rather than
+// through a reactive ref: Vue only applies a `:class` binding's DOM update on
+// its next microtask flush, but `applyChange` below sets `dir` synchronously,
+// in this same tick. A browser that hasn't paused to let that microtask land
+// before its next paint (any real browser, unlike this project's dev-time
+// checks in a backgrounded tab) can start the transition on the old class
+// list and still catch the phantom swipe. Setting the class straight on the
+// node closes that gap entirely.
+const NO_TRANSITION_CLASS = "landing-navbar__drawer--no-transition";
 
 const withoutDrawerTransition = (applyChange) => {
-  suppressDrawerTransition.value = true;
+  const el = drawerEl.value;
+  el?.classList.add(NO_TRANSITION_CLASS);
   applyChange();
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
-      suppressDrawerTransition.value = false;
+      el?.classList.remove(NO_TRANSITION_CLASS);
     });
   });
 };
@@ -232,6 +240,7 @@ const STICK_AFTER = 80;
 const DRAWER_BREAKPOINT = 1279;
 
 const navEl = ref(null);
+const drawerEl = ref(null);
 const isStuck = ref(false);
 const reservedHeight = ref(0);
 const activeSection = ref("");
