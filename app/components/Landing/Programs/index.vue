@@ -96,7 +96,12 @@
     </div>
 
     <div v-reveal.zoom class="landing-programs__actions">
-      <a class="landing-programs__cta" :href="registerHref">
+      <a
+        class="landing-programs__cta"
+        :href="registerHref"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         {{ $t("landing.programs.cta") }}
         <img
           class="landing-programs__cta-icon"

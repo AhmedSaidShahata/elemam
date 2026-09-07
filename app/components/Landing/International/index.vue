@@ -72,9 +72,9 @@
 
 <script setup>
 const features = [
-  { key: "global_content", icon: "globe-feature" },
   { key: "fully_virtual", icon: "monitor" },
-  { key: "certificates", icon: "award" },
+  { key: "global_content", icon: "globe-feature" },
   { key: "language_support", icon: "circle-x" },
+  { key: "certificates", icon: "award" },
 ];
 </script>

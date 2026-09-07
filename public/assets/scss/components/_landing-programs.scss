@@ -114,7 +114,7 @@
     // zero basis collapses them the moment the tall sibling wraps to its own
     // line.
     &--stacked {
-      height: 280px;
+      height: auto;
       flex: none;
 
       @include screen(1279px) {

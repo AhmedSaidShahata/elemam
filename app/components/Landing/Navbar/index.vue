@@ -69,16 +69,117 @@
       <a
         class="landing-navbar__cta"
         :href="registerHref"
+        target="_blank"
+        rel="noopener noreferrer"
         @click="scrollToSection($event, registerHref)"
       >
         {{ $t("landing.nav.register_now") }}
       </a>
+
+      <!-- Below the breakpoint where `&__links` hides, this is the only way to
+           reach the section links - they move into the drawer below. -->
+      <button
+        type="button"
+        class="landing-navbar__menu-toggle"
+        :aria-expanded="drawerOpen ? 'true' : 'false'"
+        aria-controls="landing-navbar-drawer"
+        :aria-label="$t(drawerOpen ? 'landing.nav.close_menu' : 'landing.nav.open_menu')"
+        @click="drawerOpen = !drawerOpen"
+      >
+        <svg v-if="!drawerOpen" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+        <svg v-else viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </button>
     </nav>
+
+    <div
+      class="landing-navbar__backdrop"
+      :class="{ 'landing-navbar__backdrop--open': drawerOpen }"
+      aria-hidden="true"
+      @click="closeDrawer"
+    />
+
+    <div
+      id="landing-navbar-drawer"
+      class="landing-navbar__drawer"
+      :class="{
+        'landing-navbar__drawer--open': drawerOpen,
+        'landing-navbar__drawer--no-transition': suppressDrawerTransition,
+      }"
+      role="dialog"
+      :aria-modal="drawerOpen ? 'true' : undefined"
+      :aria-label="$t('landing.nav.aria_label')"
+      :inert="!drawerOpen"
+    >
+      <div class="landing-navbar__drawer-head">
+        <img
+          class="landing-navbar__drawer-logo"
+          src="/assets/icons/landing/otas-logo.svg"
+          :alt="$t('landing.nav.otas_logo_alt')"
+          width="70"
+          height="27"
+        />
+        <button
+          type="button"
+          class="landing-navbar__drawer-close"
+          :aria-label="$t('landing.nav.close_menu')"
+          @click="closeDrawer"
+        >
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
+
+      <button
+        type="button"
+        class="landing-navbar__drawer-lang"
+        :aria-label="$t('landing.nav.switch_language')"
+        @click="onDrawerLangClick"
+      >
+        <img
+          class="landing-navbar__drawer-lang-icon"
+          src="/assets/icons/landing/globe.svg"
+          alt=""
+          width="18"
+          height="18"
+          aria-hidden="true"
+        />
+        <span class="landing-navbar__drawer-lang-label">{{ nextLocaleLabel }}</span>
+      </button>
+
+      <ul class="landing-navbar__drawer-links">
+        <li v-for="link in links" :key="link.key">
+          <a
+            class="landing-navbar__drawer-link"
+            :class="{ 'landing-navbar__drawer-link--active': activeSection === link.key }"
+            :href="link.href"
+            :aria-current="activeSection === link.key ? 'true' : undefined"
+            @click="onDrawerLinkClick($event, link.href)"
+          >
+            {{ $t(`landing.nav.${link.key}`) }}
+          </a>
+        </li>
+      </ul>
+
+      <a
+        class="landing-navbar__drawer-cta"
+        :href="registerHref"
+        target="_blank"
+        rel="noopener noreferrer"
+        @click="onDrawerLinkClick($event, registerHref)"
+      >
+        {{ $t("landing.nav.register_now") }}
+      </a>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, onMounted, nextTick, ref } from "vue";
+import { computed, onBeforeUnmount, onMounted, nextTick, ref, watch } from "vue";
 import cookies from "js-cookie";
 import { setLocale as setLocaleValidate } from "@vee-validate/i18n";
 import { useLocaleStore } from "~/stores/locale";
@@ -91,23 +192,78 @@ const { scrollToSection } = useLandingScroll();
 const nextLocaleCode = computed(() => (locale.value === "ar" ? "en" : "ar"));
 const nextLocaleLabel = computed(() => nextLocaleCode.value.toUpperCase());
 
+// The closed drawer sits at `translateX(100%)` in LTR and `translateX(-100%)`
+// in RTL (see the `[dir="rtl"]` override in the stylesheet) - two different
+// "off-screen" values for the same closed state. Flipping `dir` recomputes
+// which one applies, and since `transform` is a transitioned property, the
+// browser animates between them, sliding the closed drawer across the full
+// viewport and back out. Suppressing the transition for the two paints
+// around the flip removes that phantom swipe without touching the drawer's
+// own open/close animation once the frame after has already landed.
+const suppressDrawerTransition = ref(false);
+
+const withoutDrawerTransition = (applyChange) => {
+  suppressDrawerTransition.value = true;
+  applyChange();
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      suppressDrawerTransition.value = false;
+    });
+  });
+};
+
 const switchLocale = () => {
   const code = nextLocaleCode.value;
   setLocale(code);
   setLocaleValidate(code);
   setLocaleApp(code);
   cookies.set("_lang", code);
-  document.documentElement.setAttribute("dir", code === "ar" ? "rtl" : "ltr");
-  document.documentElement.setAttribute("lang", code);
+  withoutDrawerTransition(() => {
+    document.documentElement.setAttribute("dir", code === "ar" ? "rtl" : "ltr");
+    document.documentElement.setAttribute("lang", code);
+  });
 };
 
 // How far the page scrolls before the bar detaches from the hero.
 const STICK_AFTER = 80;
 
+// Matches the `screen(1279px)` breakpoint in _landing-navbar.scss where
+// `&__links` hides and the drawer becomes the only way to reach the sections.
+const DRAWER_BREAKPOINT = 1279;
+
 const navEl = ref(null);
 const isStuck = ref(false);
 const reservedHeight = ref(0);
 const activeSection = ref("");
+const drawerOpen = ref(false);
+
+const closeDrawer = () => {
+  drawerOpen.value = false;
+};
+
+const onDrawerLinkClick = (event, href) => {
+  scrollToSection(event, href);
+  closeDrawer();
+};
+
+// Closing the drawer alongside the switch avoids showing it flip from one
+// side of the screen to the other while still open - `switchLocale` already
+// suppresses the drawer's own transition for the moment `dir` changes, so this
+// closes instantly rather than animating out.
+const onDrawerLangClick = () => {
+  switchLocale();
+  closeDrawer();
+};
+
+// Body scroll is locked while the drawer covers the page, same convention as
+// the site's other slide-out drawer (Shared/Layout/Default/Drawer).
+watch(drawerOpen, (open) => {
+  document.documentElement.style.overflow = open ? "hidden" : "";
+});
+
+const onKeydown = (event) => {
+  if (event.key === "Escape" && drawerOpen.value) closeDrawer();
+};
 
 const slotStyle = computed(() =>
   isStuck.value ? { height: `${reservedHeight.value}px` } : null
@@ -158,6 +314,11 @@ const onScroll = () => {
 const onResize = () => {
   measure();
   publishClearance();
+
+  // The toggle button that opens the drawer disappears above the breakpoint,
+  // so a drawer left open while resizing past it (e.g. rotating a tablet, or
+  // widening a resizable window) would otherwise be unreachable to close.
+  if (drawerOpen.value && window.innerWidth > DRAWER_BREAKPOINT) closeDrawer();
 };
 
 // Highlights the link for whichever section is crossing the middle of the
@@ -170,6 +331,7 @@ onMounted(() => {
   measure();
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", onResize);
+  window.addEventListener("keydown", onKeydown);
   onScroll();
 
   // The bar's height also changes for reasons a resize listener never sees -
@@ -201,9 +363,13 @@ onMounted(() => {
 onBeforeUnmount(() => {
   window.removeEventListener("scroll", onScroll);
   window.removeEventListener("resize", onResize);
+  window.removeEventListener("keydown", onKeydown);
   if (frame) cancelAnimationFrame(frame);
   spy?.disconnect();
   barResize?.disconnect();
   document.documentElement.style.removeProperty("--landing-header-clearance");
+  // Leaving the page with the drawer open must not strand the rest of the app
+  // with scrolling locked.
+  document.documentElement.style.overflow = "";
 });
 </script>

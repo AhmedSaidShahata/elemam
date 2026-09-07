@@ -51,7 +51,12 @@
         >
           {{ $t("landing.hero.cta_secondary") }}
         </a>
-        <a class="landing-hero__cta landing-hero__cta--primary" :href="registerHref">
+        <a
+          class="landing-hero__cta landing-hero__cta--primary"
+          :href="registerHref"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {{ $t("landing.hero.cta_primary") }}
           <img
             class="landing-hero__cta-icon"

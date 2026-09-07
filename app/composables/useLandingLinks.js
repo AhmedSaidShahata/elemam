@@ -1,9 +1,8 @@
 // Single source of truth for the landing page's in-page navigation.
 //
-// The Figma design shows the nav items and the "register" calls to action but
-// never defines a registration destination, so `registerHref` points at the
-// enquiries block for now. Swap it for the real registration route/URL here and
-// every call to action on the page follows.
+// `registerHref` is the registration form external to the site - every
+// "Register now" call to action links here and opens it in a new tab, so
+// visitors never lose their place on the landing page.
 export const useLandingLinks = () => {
   const sections = ["about", "programs", "international", "faq", "contact"];
 
@@ -11,6 +10,6 @@ export const useLandingLinks = () => {
 
   return {
     navLinks,
-    registerHref: "#contact",
+    registerHref: "https://forms.gle/xozvuXoCBwPWsaNo6",
   };
 };

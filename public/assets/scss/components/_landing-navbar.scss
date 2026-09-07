@@ -35,10 +35,10 @@
 
   @include screen(1279px) {
     height: auto;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 16px;
-    padding: 16px 20px;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 20px;
   }
 
   &__logos {
@@ -53,6 +53,11 @@
     display: block;
     width: 118px;
     height: 45px;
+    // @include mobile {
+    //     object-fit: contain;
+    //   width: 30px;
+    //   height: 27px;
+    // }
   }
 
   &__logo-divider-wrap {
@@ -76,6 +81,11 @@
     width: 61px;
     height: 83px;
     object-fit: contain;
+    // @include mobile {
+    //     width: 25px;
+    // height: 54px;
+    // }
+  
   }
 
   &__links {
@@ -92,12 +102,10 @@
       gap: 20px;
     }
 
+    // Below the breakpoint the links move into the slide-out drawer instead of
+    // wrapping onto a second row or scrolling sideways in the bar itself.
     @include screen(1279px) {
-      height: auto;
-      flex-wrap: wrap;
-      justify-content: center;
-      order: 3;
-      width: 100%;
+      display: none;
     }
   }
 
@@ -167,6 +175,12 @@
     &:focus-visible {
       background: #b3e0f7;
     }
+
+    // Moves into the drawer below the breakpoint (see `&__drawer-lang`), so
+    // the inline bar is left with just the logos and the drawer toggle.
+    @include screen(1279px) {
+      display: none;
+    }
   }
 
   &__lang-icon {
@@ -208,6 +222,12 @@
     &:hover,
     &:focus-visible {
       background: #3a2a63;
+    }
+
+    // Already duplicated as `&__drawer-cta`, so the inline bar is left with
+    // just the logos and the drawer toggle below the breakpoint.
+    @include screen(1279px) {
+      display: none;
     }
   }
 
@@ -256,28 +276,6 @@
       gap: 12px;
       padding: 8px 20px;
 
-      .landing-navbar__links {
-        order: 0;
-        width: auto;
-        height: auto;
-        flex: 1 1 auto;
-        flex-wrap: nowrap;
-        justify-content: flex-start;
-        gap: 16px;
-        overflow-x: auto;
-        // The strip is scrolled, not decorated - hide the bar itself.
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-
-        &::-webkit-scrollbar {
-          display: none;
-        }
-      }
-
-      .landing-navbar__link {
-        font-size: 15px;
-      }
-
       .landing-navbar__logo-university {
         width: 30px;
         height: 41px;
@@ -291,27 +289,250 @@
       .landing-navbar__logo-divider-wrap {
         display: none;
       }
-
-      .landing-navbar__cta {
-        padding: 7px 16px;
-        font-size: 15px;
-      }
-
-      .landing-navbar__lang {
-        padding: 6px 12px;
-      }
     }
 
+    // The language switch and CTA are hidden below 1279px (see `&__lang` and
+    // `&__cta`), so even at phone width the bar only ever holds the logos and
+    // the drawer toggle - no need to give up the crests for room any more.
     @include screen(767px) {
       padding: 8px 16px;
       gap: 8px;
-
-      // On a phone the two crests would leave the link strip about 70px to
-      // scroll inside. The visitor has already passed the hero's branding by
-      // the time this bar appears, so the links and the CTA get the room.
-      .landing-navbar__logos {
-        display: none;
-      }
     }
+  }
+
+  // Reveals the drawer toggle exactly where `&__links` hides above, so there
+  // is never a moment with neither the inline links nor the button to reach them.
+  &__menu-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid rgba(72, 52, 120, 0.16);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.7);
+    color: #483478;
+    cursor: pointer;
+    flex-shrink: 0;
+    @include transition(0.25);
+
+    &:hover,
+    &:focus-visible {
+      background: #fff;
+      border-color: rgba(72, 52, 120, 0.32);
+    }
+
+    svg {
+      display: block;
+      width: 20px;
+      height: 20px;
+    }
+
+    @include screen(1279px) {
+      display: inline-flex;
+    }
+  }
+
+  &__backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    background: rgba(20, 14, 33, 0.55);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.3s ease,
+      visibility 0s linear 0.3s;
+
+    &--open {
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.3s ease;
+    }
+  }
+
+  // Pinned to the reading-end edge and slid fully off-screen when closed - see
+  // the `[dir="rtl"]` override below for the mirrored physical direction.
+  &__drawer {
+    position: fixed;
+    inset-block: 0;
+    inset-inline-end: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: min(320px, 86vw);
+    height: 100dvh;
+    padding: 20px;
+    background: #fff;
+    box-shadow: -12px 0 40px rgba(31, 25, 38, 0.18);
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.24, 1);
+    overflow-y: auto;
+
+    &--open {
+      transform: translateX(0);
+    }
+
+    // Applied for one repaint around a language switch, when flipping `dir`
+    // changes which of the two "closed" values below applies and would
+    // otherwise animate the (still-closed) drawer across the viewport.
+    &--no-transition {
+      transition: none !important;
+    }
+  }
+
+  &__drawer-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: none;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--landing-border);
+  }
+
+  &__drawer-logo {
+    display: block;
+    width: 70px;
+    height: 27px;
+  }
+
+  &__drawer-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 0;
+    border-radius: 10px;
+    background: var(--landing-tint);
+    color: var(--landing-ink);
+    cursor: pointer;
+    @include transition(0.2);
+
+    &:hover,
+    &:focus-visible {
+      background: var(--landing-lilac-soft);
+    }
+
+    svg {
+      display: block;
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  // The compact bar's own `&__lang` is hidden below the breakpoint the drawer
+  // takes over at, so this is the only way to switch language on mobile.
+  &__drawer-lang {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    align-self: flex-start;
+    margin-top: 16px;
+    // Latin locale codes read left-to-right, so the globe stays leading in both locales.
+    direction: ltr;
+    padding: 8px 16px;
+    border: 0;
+    border-radius: 20px;
+    background: var(--landing-sky);
+    cursor: pointer;
+    @include transition(0.2);
+
+    &:hover,
+    &:focus-visible {
+      background: #b3e0f7;
+    }
+  }
+
+  &__drawer-lang-icon {
+    display: block;
+    width: 18px;
+    height: 18px;
+  }
+
+  &__drawer-lang-label {
+    font-family: var(--font-cairo);
+    font-weight: 700;
+    font-size: 14px;
+    line-height: normal;
+    color: var(--landing-sky-ink);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  &__drawer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 12px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__drawer-link {
+    display: block;
+    padding: 12px 12px;
+    border-radius: 10px;
+    font-family: var(--font-cairo);
+    font-weight: 500;
+    font-size: 17px;
+    color: #000;
+    text-decoration: none;
+    @include transition(0.2);
+
+    &:hover,
+    &:focus-visible {
+      background: var(--landing-tint);
+      color: #483478;
+    }
+
+    &--active {
+      background: var(--landing-lilac-soft);
+      color: #483478;
+      font-weight: 700;
+    }
+  }
+
+  &__drawer-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    margin-top: auto;
+    padding: 14px;
+    border-radius: 12px;
+    background: #483478;
+    font-family: var(--font-cairo);
+    font-weight: 700;
+    font-size: 18px;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    @include transition(0.25);
+
+    &:hover,
+    &:focus-visible {
+      background: #3a2a63;
+    }
+  }
+}
+
+// The drawer slides in from the edge the locale reads toward, mirroring
+// `&__drawer`'s `inset-inline-end` placement in the opposite physical direction.
+[dir="rtl"] .landing-navbar__drawer {
+  transform: translateX(-100%);
+
+  &.landing-navbar__drawer--open {
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-navbar__drawer,
+  .landing-navbar__backdrop {
+    transition: none;
   }
 }
