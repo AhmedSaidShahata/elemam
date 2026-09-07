@@ -23,9 +23,9 @@
           <span class="landing-faq__trigger" aria-hidden="true">
             <img
               class="landing-faq__trigger-icon"
-              :src="`/assets/icons/landing/chevron-${
-                openIndex === index ? 'up' : 'down'
-              }.svg`"
+              :src="
+                assetUrl(`assets/icons/landing/chevron-${openIndex === index ? 'up' : 'down'}.svg`)
+              "
               alt=""
               width="16"
               height="16"
@@ -62,6 +62,8 @@
 
 <script setup>
 import { ref } from "vue";
+
+const { assetUrl } = useLandingAsset();
 
 const questionsCount = 4;
 

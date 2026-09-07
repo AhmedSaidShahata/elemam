@@ -23,7 +23,7 @@
               <img
                 class="landing-programs__card-image"
                 :class="`landing-programs__card-image--${program.key}`"
-                :src="`/assets/images/landing/program-${program.key}.png`"
+                :src="assetUrl(`assets/images/landing/program-${program.key}.png`)"
                 :alt="$t(`landing.programs.${program.key}_title`)"
                 width="540"
                 height="180"
@@ -76,7 +76,7 @@
             <img
               class="landing-programs__card-image"
               :class="`landing-programs__card-image--${program.key}`"
-              :src="`/assets/images/landing/program-${program.key}.png`"
+              :src="assetUrl(`assets/images/landing/program-${program.key}.png`)"
               :alt="$t(`landing.programs.${program.key}_title`)"
               width="402"
               height="180"
@@ -131,6 +131,7 @@
 
 <script setup>
 const { registerHref } = useLandingLinks();
+const { assetUrl } = useLandingAsset();
 
 // Card order and tones follow the Figma bento grid.
 const stackedPrograms = [

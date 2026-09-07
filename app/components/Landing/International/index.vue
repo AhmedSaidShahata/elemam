@@ -48,7 +48,7 @@
             <span class="landing-international__feature-icon-box">
               <img
                 class="landing-international__feature-icon"
-                :src="`/assets/icons/landing/${feature.icon}.svg`"
+                :src="assetUrl(`assets/icons/landing/${feature.icon}.svg`)"
                 alt=""
                 width="20"
                 height="20"
@@ -71,6 +71,8 @@
 </template>
 
 <script setup>
+const { assetUrl } = useLandingAsset();
+
 const features = [
   { key: "fully_virtual", icon: "monitor" },
   { key: "global_content", icon: "globe-feature" },

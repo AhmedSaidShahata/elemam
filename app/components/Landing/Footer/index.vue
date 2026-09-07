@@ -11,7 +11,7 @@
             <span v-if="network.glyph" class="landing-footer__social-glyph">
               {{ network.glyph }}
             </span>
-            <img v-else class="landing-footer__social-icon" :src="`/assets/icons/landing/social-${network.key}.svg`"
+            <img v-else class="landing-footer__social-icon" :src="assetUrl(`assets/icons/landing/social-${network.key}.svg`)"
               alt="" width="18" height="18" aria-hidden="true" />
           </a>
         </div>
@@ -154,6 +154,7 @@
 <script setup>
 const { navLinks: links } = useLandingLinks();
 const { scrollToSection } = useLandingScroll();
+const { assetUrl } = useLandingAsset();
 
 const socialNetworks = [
   { key: "instagram", href: "https://www.instagram.com/otasnet", label: "Instagram" },
