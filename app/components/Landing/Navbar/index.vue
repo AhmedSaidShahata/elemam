@@ -264,10 +264,30 @@ const onDrawerLangClick = () => {
   closeDrawer();
 };
 
-// Body scroll is locked while the drawer covers the page, same convention as
-// the site's other slide-out drawer (Shared/Layout/Default/Drawer).
+// Body scroll is locked while the drawer covers the page. `overflow: hidden`
+// alone (the site's other slide-out drawer's approach) stops the page from
+// scrolling on desktop, but iOS Safari still lets a touch drag scroll the
+// background underneath a `position: fixed` overlay, which visibly detaches
+// the drawer from the header once there is scroll offset behind it - the
+// symptom only ever shows up away from the very top of the page, since with
+// nothing behind to scroll the naive lock looks fine by accident. Pinning the
+// body to its current scroll offset is the standard fix for that class of bug.
+let lockedScrollY = 0;
+
 watch(drawerOpen, (open) => {
-  document.documentElement.style.overflow = open ? "hidden" : "";
+  if (open) {
+    lockedScrollY = window.scrollY;
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${lockedScrollY}px`;
+    document.body.style.width = "100%";
+  } else {
+    document.documentElement.style.overflow = "";
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.width = "";
+    window.scrollTo(0, lockedScrollY);
+  }
 });
 
 const onKeydown = (event) => {
@@ -380,5 +400,8 @@ onBeforeUnmount(() => {
   // Leaving the page with the drawer open must not strand the rest of the app
   // with scrolling locked.
   document.documentElement.style.overflow = "";
+  document.body.style.position = "";
+  document.body.style.top = "";
+  document.body.style.width = "";
 });
 </script>
