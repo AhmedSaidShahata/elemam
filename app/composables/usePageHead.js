@@ -62,12 +62,6 @@ const { getCompany } = useCompanyStore();
         return {
             title: title.value,
             meta: metaTags,
-            link: [
-                {
-                    rel: 'icon',
-                    href: logo.value,
-                },
-            ],
         }
     })
 }

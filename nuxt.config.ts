@@ -61,6 +61,16 @@ export default defineNuxtConfig({
         { src: '/js/main.js', defer: true }
       ],
       link: [
+        // This config runs at build time, outside any Vue template, so it
+        // never gets the same-file static-src base-URL rewrite Vue's SFC
+        // compiler applies to a plain template `src="/assets/..."` - the
+        // base path has to be prefixed by hand here, same as
+        // `useLandingAsset()` does for the equivalent case at runtime.
+        {
+          rel: 'icon',
+          type: 'image/svg+xml',
+          href: `${process.env.NUXT_APP_BASE_URL || '/'}assets/icons/landing/otas-mark.svg`,
+        },
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
         {
