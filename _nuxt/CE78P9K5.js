@@ -1,1 +1,0 @@
-import{d as e,l as t}from"./0tL5qcfz.js";import{t as n}from"./DB5ePVMA.js";var r=t((t,r)=>{if(n().isLoggedIn)return e(`/`,{replace:!0})});export{r as default};
