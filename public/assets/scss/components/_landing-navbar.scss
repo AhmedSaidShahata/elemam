@@ -4,7 +4,7 @@
 // component at the moment the bar detaches, so the hero below does not jump.
 .landing-navbar-slot {
   position: relative;
-  z-index: 4;
+  z-index: 99999;
   width: 100%;
   flex: none;
 }
