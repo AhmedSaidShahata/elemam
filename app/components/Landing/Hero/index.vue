@@ -10,12 +10,12 @@
       />
     </div>
     <div class="landing-hero__overlay" aria-hidden="true" />
-
+<!-- 
     <div ref="orbsRef" class="landing-hero__orbs" aria-hidden="true">
       <span class="landing-hero__orb landing-hero__orb--1" />
       <span class="landing-hero__orb landing-hero__orb--2" />
       <span class="landing-hero__orb landing-hero__orb--3" />
-    </div>
+    </div> -->
 
     <LandingNavbar />
 
