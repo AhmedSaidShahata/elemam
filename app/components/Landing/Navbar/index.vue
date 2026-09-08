@@ -9,7 +9,12 @@
       :class="{ 'landing-navbar--stuck': isStuck }"
       :aria-label="$t('landing.nav.aria_label')"
     >
-      <div class="landing-navbar__logos">
+      <button
+        type="button"
+        class="landing-navbar__logos"
+        :aria-label="$t('landing.nav.back_to_top')"
+        @click="scrollToTop"
+      >
         <img
           class="landing-navbar__logo-university"
           src="/assets/images/landing/imam-university-logo.png"
@@ -33,7 +38,7 @@
           width="118"
           height="45"
         />
-      </div>
+      </button>
 
       <ul class="landing-navbar__links">
         <li v-for="link in links" :key="link.key">
@@ -113,13 +118,20 @@
       :inert="!drawerOpen"
     >
       <div class="landing-navbar__drawer-head">
-        <img
-          class="landing-navbar__drawer-logo"
-          src="/assets/icons/landing/otas-logo.svg"
-          :alt="$t('landing.nav.otas_logo_alt')"
-          width="70"
-          height="27"
-        />
+        <button
+          type="button"
+          class="landing-navbar__drawer-logo-button"
+          :aria-label="$t('landing.nav.back_to_top')"
+          @click="onDrawerLogoClick"
+        >
+          <img
+            class="landing-navbar__drawer-logo"
+            src="/assets/icons/landing/otas-logo.svg"
+            :alt="$t('landing.nav.otas_logo_alt')"
+            width="70"
+            height="27"
+          />
+        </button>
         <button
           type="button"
           class="landing-navbar__drawer-close"
@@ -185,7 +197,7 @@ import { useLocaleStore } from "~/stores/locale";
 const { locale, setLocale } = useI18n();
 const { setLocaleApp } = useLocaleStore();
 const { navLinks: links, registerHref } = useLandingLinks();
-const { scrollToSection } = useLandingScroll();
+const { scrollToSection, scrollToTop } = useLandingScroll();
 
 const nextLocaleCode = computed(() => (locale.value === "ar" ? "en" : "ar"));
 const nextLocaleLabel = computed(() => nextLocaleCode.value.toUpperCase());
@@ -304,6 +316,17 @@ const onDrawerLinkClick = (event, href) => {
     closeDrawer();
   }
   scrollToSection(event, href);
+};
+
+// Same reasoning as onDrawerLinkClick above: this is a real navigation (back
+// to the top), so the watcher's restore-to-pre-open-position is suppressed
+// and the body unlocked synchronously first, or the scroll below would have
+// no visible effect while it's still pinned via the lock's position:fixed.
+const onDrawerLogoClick = (event) => {
+  suppressScrollRestore = true;
+  closeDrawer();
+  unlockBodyScroll();
+  scrollToTop(event);
 };
 
 // Closing the drawer alongside the switch avoids showing it flip from one

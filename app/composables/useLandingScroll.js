@@ -32,5 +32,17 @@ export const useLandingScroll = () => {
     target.focus({ preventScroll: true });
   };
 
-  return { scrollToSection };
+  // Used by the header logo - clicking it returns to the top of the page,
+  // the same "logo acts as home" convention as the rest of the site.
+  const scrollToTop = (event) => {
+    event?.preventDefault();
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "smooth" });
+
+    // Drop any #section hash so the URL matches where this actually lands.
+    window.history.replaceState(null, "", window.location.pathname + window.location.search);
+  };
+
+  return { scrollToSection, scrollToTop };
 };
