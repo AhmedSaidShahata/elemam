@@ -158,7 +158,7 @@ const { assetUrl } = useLandingAsset();
 
 const socialNetworks = [
   { key: "instagram", href: "https://www.instagram.com/otasnet", label: "Instagram" },
-  { key: "linkedin", href: "https://www.linkedin.com/", label: "LinkedIn" },
+  { key: "linkedin", href: "https://www.linkedin.com/company/otasnet", label: "LinkedIn" },
   { key: "snapchat", href: "https://www.snapchat.com/@travelplusgl", label: "Snapchat" },
   { key: "x", href: "https://x.com/Otasnet", label: "X", glyph: "𝕏" },
   { key: "facebook", href: "https://www.facebook.com/Otasnetsa", label: "Facebook" },
