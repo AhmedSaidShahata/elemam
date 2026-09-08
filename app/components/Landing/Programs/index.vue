@@ -16,6 +16,7 @@
           <article
             v-for="program in stackedPrograms"
             :key="program.key"
+            v-tilt
             class="landing-programs__card landing-programs__card--stacked"
             :class="`landing-programs__card--${program.tone}`"
           >
@@ -42,6 +43,7 @@
         </div>
 
         <article
+          v-tilt
           class="landing-programs__card landing-programs__card--feature landing-programs__card--purple"
         >
           <div class="landing-programs__card-media">
@@ -69,6 +71,7 @@
         <article
           v-for="program in quarterPrograms"
           :key="program.key"
+          v-tilt
           class="landing-programs__card landing-programs__card--quarter"
           :class="`landing-programs__card--${program.tone}`"
         >

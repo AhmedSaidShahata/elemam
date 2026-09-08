@@ -50,6 +50,52 @@
     pointer-events: none;
   }
 
+  &__orbs {
+    --orb-px: 0;
+    --orb-py: 0;
+
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  &__orb {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.55;
+    filter: blur(50px);
+    will-change: transform;
+  }
+
+  &__orb--1 {
+    top: 6%;
+    left: 4%;
+    width: 260px;
+    height: 260px;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 97, 33, 0.85), rgba(255, 97, 33, 0) 70%);
+    animation: landing-orb-float-1 9s ease-in-out infinite;
+  }
+
+  &__orb--2 {
+    right: 6%;
+    bottom: 4%;
+    width: 340px;
+    height: 340px;
+    background: radial-gradient(circle at 60% 40%, rgba(198, 233, 250, 0.7), rgba(198, 233, 250, 0) 70%);
+    animation: landing-orb-float-2 11s ease-in-out infinite;
+  }
+
+  &__orb--3 {
+    top: 42%;
+    left: 46%;
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 70%);
+    animation: landing-orb-float-3 7s ease-in-out infinite;
+  }
+
   &__card {
     position: relative;
     z-index: 3;
@@ -258,5 +304,45 @@
     flex: none;
     // The exported arrow points to the RTL reading direction; mirror it for LTR.
     @include flip;
+  }
+}
+
+// Each orb keeps floating on its own via these keyframes; the `calc()` reads
+// `--orb-px`/`--orb-py` live off the DOM (see `LandingHero`'s pointermove
+// handler), so a visitor's cursor nudges the drift on top of the loop instead
+// of replacing it.
+@keyframes landing-orb-float-1 {
+  0%,
+  100% {
+    transform: translate3d(calc(var(--orb-px) * 40px), calc(var(--orb-py) * 40px), 0) translateY(0) scale(1);
+  }
+  50% {
+    transform: translate3d(calc(var(--orb-px) * 40px), calc(var(--orb-py) * 40px), 0) translateY(-28px) scale(1.08);
+  }
+}
+
+@keyframes landing-orb-float-2 {
+  0%,
+  100% {
+    transform: translate3d(calc(var(--orb-px) * -30px), calc(var(--orb-py) * -30px), 0) translateY(0) scale(1);
+  }
+  50% {
+    transform: translate3d(calc(var(--orb-px) * -30px), calc(var(--orb-py) * -30px), 0) translateY(24px) scale(0.92);
+  }
+}
+
+@keyframes landing-orb-float-3 {
+  0%,
+  100% {
+    transform: translate3d(calc(var(--orb-px) * 55px), calc(var(--orb-py) * 55px), 0) translate(0, 0);
+  }
+  50% {
+    transform: translate3d(calc(var(--orb-px) * 55px), calc(var(--orb-py) * 55px), 0) translate(-18px, -18px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-hero__orb {
+    animation: none;
   }
 }

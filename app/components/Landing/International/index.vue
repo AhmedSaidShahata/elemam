@@ -1,6 +1,6 @@
 <template>
   <section id="international" class="landing-international">
-    <div v-reveal.start class="landing-international__visual">
+    <div v-reveal.start v-tilt class="landing-international__visual">
       <img
         class="landing-international__visual-media"
         src="/assets/images/landing/international-visual.png"

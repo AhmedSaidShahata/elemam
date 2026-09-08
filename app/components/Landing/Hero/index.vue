@@ -11,6 +11,12 @@
     </div>
     <div class="landing-hero__overlay" aria-hidden="true" />
 
+    <div ref="orbsRef" class="landing-hero__orbs" aria-hidden="true">
+      <span class="landing-hero__orb landing-hero__orb--1" />
+      <span class="landing-hero__orb landing-hero__orb--2" />
+      <span class="landing-hero__orb landing-hero__orb--3" />
+    </div>
+
     <LandingNavbar />
 
     <div v-reveal.stagger class="landing-hero__card">
@@ -77,4 +83,37 @@ const paragraphsCount = 4;
 
 const { navLinks, registerHref } = useLandingLinks();
 const programsHref = navLinks.find((link) => link.key === "programs").href;
+
+// Subtle 3D parallax for the background orbs: they float on their own via
+// CSS keyframes (see `_landing-hero.scss`), and this just layers a
+// pointer-driven drift on top for visitors with a mouse. rAF-throttled so a
+// fast mousemove stream never queues more than one style write per frame.
+const orbsRef = ref(null);
+let parallaxRaf = null;
+
+const canParallax = () =>
+  window.matchMedia("(hover: hover) and (pointer: fine)").matches &&
+  !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const onPointerMove = (event) => {
+  if (parallaxRaf) return;
+  parallaxRaf = requestAnimationFrame(() => {
+    parallaxRaf = null;
+    const el = orbsRef.value;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    el.style.setProperty("--orb-px", ((event.clientX - rect.left) / rect.width - 0.5).toFixed(3));
+    el.style.setProperty("--orb-py", ((event.clientY - rect.top) / rect.height - 0.5).toFixed(3));
+  });
+};
+
+onMounted(() => {
+  if (!canParallax()) return;
+  window.addEventListener("pointermove", onPointerMove, { passive: true });
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("pointermove", onPointerMove);
+  if (parallaxRaf) cancelAnimationFrame(parallaxRaf);
+});
 </script>
