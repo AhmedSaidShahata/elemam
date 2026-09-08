@@ -3,94 +3,48 @@
        fixed it reserves the height the bar used to occupy, so nothing below it
        jumps at the moment it detaches. -->
   <div class="landing-navbar-slot" :style="slotStyle">
-    <nav
-      ref="navEl"
-      class="landing-navbar"
-      :class="{ 'landing-navbar--stuck': isStuck }"
-      :aria-label="$t('landing.nav.aria_label')"
-    >
-      <button
-        type="button"
-        class="landing-navbar__logos"
-        :aria-label="$t('landing.nav.back_to_top')"
-        @click="scrollToTop"
-      >
-        <img
-          class="landing-navbar__logo-university"
-          src="/assets/images/landing/imam-university-logo.png"
-          :alt="$t('landing.nav.university_logo_alt')"
-          width="61"
-          height="83"
-        />
+    <nav ref="navEl" class="landing-navbar" :class="{ 'landing-navbar--stuck': isStuck }"
+      :aria-label="$t('landing.nav.aria_label')">
+      <button type="button" class="landing-navbar__logos" :aria-label="$t('landing.nav.back_to_top')"
+        @click="onLogoClick">
+        <img class="landing-navbar__logo-university" src="/assets/images/landing/imam-university-logo.png"
+          :alt="$t('landing.nav.university_logo_alt')" width="61" height="83" />
         <span class="landing-navbar__logo-divider-wrap" aria-hidden="true">
-          <img
-            class="landing-navbar__logo-divider"
-            src="/assets/icons/landing/logo-divider.svg"
-            alt=""
-            width="24"
-            height="1"
-          />
+          <img class="landing-navbar__logo-divider" src="/assets/icons/landing/logo-divider.svg" alt="" width="24"
+            height="1" />
         </span>
-        <img
-          class="landing-navbar__logo-otas"
-          src="/assets/icons/landing/otas-logo.svg"
-          :alt="$t('landing.nav.otas_logo_alt')"
-          width="118"
-          height="45"
-        />
+        <img class="landing-navbar__logo-otas" src="/assets/icons/landing/otas-logo.svg"
+          :alt="$t('landing.nav.otas_logo_alt')" width="118" height="45" />
       </button>
 
       <ul class="landing-navbar__links">
         <li v-for="link in links" :key="link.key">
-          <a
-            class="landing-navbar__link"
-            :class="{ 'landing-navbar__link--active': activeSection === link.key }"
-            :href="link.href"
-            :aria-current="activeSection === link.key ? 'true' : undefined"
-            @click="scrollToSection($event, link.href)"
-          >
+          <a class="landing-navbar__link" :class="{ 'landing-navbar__link--active': activeSection === link.key }"
+            :href="link.href" :aria-current="activeSection === link.key ? 'true' : undefined"
+            @click="scrollToSection($event, link.href)">
             {{ $t(`landing.nav.${link.key}`) }}
           </a>
         </li>
       </ul>
 
-      <button
-        type="button"
-        class="landing-navbar__lang"
-        :aria-label="$t('landing.nav.switch_language')"
-        @click="switchLocale"
-      >
-        <img
-          class="landing-navbar__lang-icon"
-          src="/assets/icons/landing/globe.svg"
-          alt=""
-          width="20"
-          height="20"
-          aria-hidden="true"
-        />
+      <button type="button" class="landing-navbar__lang" :aria-label="$t('landing.nav.switch_language')"
+        @click="switchLocale">
+        <img class="landing-navbar__lang-icon" src="/assets/icons/landing/globe.svg" alt="" width="20" height="20"
+          aria-hidden="true" />
         <span class="landing-navbar__lang-label">{{ nextLocaleLabel }}</span>
       </button>
 
-      <a
-        class="landing-navbar__cta"
-        :href="registerHref"
-        target="_blank"
-        rel="noopener noreferrer"
-        @click="scrollToSection($event, registerHref)"
-      >
+      <a class="landing-navbar__cta" :href="registerHref" target="_blank" rel="noopener noreferrer"
+        @click="scrollToSection($event, registerHref)">
         {{ $t("landing.nav.register_now") }}
       </a>
 
       <!-- Below the breakpoint where `&__links` hides, this is the only way to
            reach the section links - they move into the drawer below. -->
-      <button
-        type="button"
-        class="landing-navbar__menu-toggle"
-        :aria-expanded="drawerOpen ? 'true' : 'false'"
+      <button type="button" class="landing-navbar__menu-toggle" :aria-expanded="drawerOpen ? 'true' : 'false'"
         aria-controls="landing-navbar-drawer"
         :aria-label="$t(drawerOpen ? 'landing.nav.close_menu' : 'landing.nav.open_menu')"
-        @click="drawerOpen = !drawerOpen"
-      >
+        @click="drawerOpen = !drawerOpen">
         <svg v-if="!drawerOpen" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
         </svg>
@@ -100,88 +54,48 @@
       </button>
     </nav>
 
-    <div
-      class="landing-navbar__backdrop"
-      :class="{ 'landing-navbar__backdrop--open': drawerOpen }"
-      aria-hidden="true"
-      @click="closeDrawer"
-    />
+    <div class="landing-navbar__backdrop" :class="{ 'landing-navbar__backdrop--open': drawerOpen }" aria-hidden="true"
+      @click="closeDrawer" />
 
-    <div
-      id="landing-navbar-drawer"
-      ref="drawerEl"
-      class="landing-navbar__drawer"
-      :class="{ 'landing-navbar__drawer--open': drawerOpen }"
-      role="dialog"
-      :aria-modal="drawerOpen ? 'true' : undefined"
-      :aria-label="$t('landing.nav.aria_label')"
-      :inert="!drawerOpen"
-    >
+    <div id="landing-navbar-drawer" ref="drawerEl" class="landing-navbar__drawer"
+      :class="{ 'landing-navbar__drawer--open': drawerOpen }" role="dialog"
+      :aria-modal="drawerOpen ? 'true' : undefined" :aria-label="$t('landing.nav.aria_label')" :inert="!drawerOpen">
       <div class="landing-navbar__drawer-head">
-        <button
-          type="button"
-          class="landing-navbar__drawer-logo-button"
-          :aria-label="$t('landing.nav.back_to_top')"
-          @click="onDrawerLogoClick"
-        >
-          <img
-            class="landing-navbar__drawer-logo"
-            src="/assets/icons/landing/otas-logo.svg"
-            :alt="$t('landing.nav.otas_logo_alt')"
-            width="70"
-            height="27"
-          />
+        <button type="button" class="landing-navbar__drawer-logo-button" :aria-label="$t('landing.nav.back_to_top')"
+          @click="onDrawerLogoClick">
+          <img class="landing-navbar__drawer-logo" src="/assets/icons/landing/otas-logo.svg"
+            :alt="$t('landing.nav.otas_logo_alt')" width="70" height="27" />
         </button>
-        <button
-          type="button"
-          class="landing-navbar__drawer-close"
-          :aria-label="$t('landing.nav.close_menu')"
-          @click="closeDrawer"
-        >
+        <button type="button" class="landing-navbar__drawer-close" :aria-label="$t('landing.nav.close_menu')"
+          @click="closeDrawer">
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
           </svg>
         </button>
       </div>
 
-      <button
-        type="button"
-        class="landing-navbar__drawer-lang"
-        :aria-label="$t('landing.nav.switch_language')"
-        @click="onDrawerLangClick"
-      >
-        <img
-          class="landing-navbar__drawer-lang-icon"
-          src="/assets/icons/landing/globe.svg"
-          alt=""
-          width="18"
-          height="18"
-          aria-hidden="true"
-        />
-        <span class="landing-navbar__drawer-lang-label">{{ nextLocaleLabel }}</span>
-      </button>
 
       <ul class="landing-navbar__drawer-links">
         <li v-for="link in links" :key="link.key">
-          <a
-            class="landing-navbar__drawer-link"
-            :class="{ 'landing-navbar__drawer-link--active': activeSection === link.key }"
-            :href="link.href"
+          <a class="landing-navbar__drawer-link"
+            :class="{ 'landing-navbar__drawer-link--active': activeSection === link.key }" :href="link.href"
             :aria-current="activeSection === link.key ? 'true' : undefined"
-            @click="onDrawerLinkClick($event, link.href)"
-          >
+            @click="onDrawerLinkClick($event, link.href)">
             {{ $t(`landing.nav.${link.key}`) }}
           </a>
         </li>
       </ul>
 
-      <a
-        class="landing-navbar__drawer-cta"
-        :href="registerHref"
-        target="_blank"
-        rel="noopener noreferrer"
-        @click="onDrawerLinkClick($event, registerHref)"
-      >
+
+      <button type="button" class="landing-navbar__drawer-lang" :aria-label="$t('landing.nav.switch_language')"
+        @click="onDrawerLangClick">
+        <img class="landing-navbar__drawer-lang-icon" src="/assets/icons/landing/globe.svg" alt="" width="18"
+          height="18" aria-hidden="true" />
+        <span class="landing-navbar__drawer-lang-label">{{ nextLocaleLabel }}</span>
+      </button>
+
+      <a class="landing-navbar__drawer-cta" :href="registerHref" target="_blank" rel="noopener noreferrer"
+        @click="onDrawerLinkClick($event, registerHref)">
         {{ $t("landing.nav.register_now") }}
       </a>
     </div>
@@ -318,11 +232,22 @@ const onDrawerLinkClick = (event, href) => {
   scrollToSection(event, href);
 };
 
+// The scroll spy below only ever sets activeSection when a tracked section
+// enters view - the hero itself isn't one of them, so scrolling back up to
+// it never clears whichever link was last active. The logo means "go to the
+// top", so it clears that itself rather than leaving a stale link
+// highlighted once you're back at the hero with nothing actually active.
+const onLogoClick = (event) => {
+  activeSection.value = "";
+  scrollToTop(event);
+};
+
 // Same reasoning as onDrawerLinkClick above: this is a real navigation (back
 // to the top), so the watcher's restore-to-pre-open-position is suppressed
 // and the body unlocked synchronously first, or the scroll below would have
 // no visible effect while it's still pinned via the lock's position:fixed.
 const onDrawerLogoClick = (event) => {
+  activeSection.value = "";
   suppressScrollRestore = true;
   closeDrawer();
   unlockBodyScroll();
@@ -422,11 +347,28 @@ onMounted(() => {
   });
   barResize.observe(navEl.value);
 
+  // The observer only fires on entries that just crossed the threshold, not
+  // "here's what's currently intersecting" - so the callback tracks that set
+  // itself, in intersectingSections, rather than trusting activeSection to
+  // reflect it. Without that, scrolling back up past a tracked section (e.g.
+  // to the hero, which isn't tracked at all) leaves its link stuck "active":
+  // the section's own exit event fires as isIntersecting:false, and with
+  // nothing handling that case the last value set on the way through just
+  // sits there with nothing left on screen for it to describe.
+  const intersectingSections = new Set();
+
   spy = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) activeSection.value = entry.target.id;
+        if (entry.isIntersecting) {
+          intersectingSections.add(entry.target.id);
+          activeSection.value = entry.target.id;
+        } else {
+          intersectingSections.delete(entry.target.id);
+        }
       });
+
+      if (intersectingSections.size === 0) activeSection.value = "";
     },
     { rootMargin: "-45% 0px -50% 0px", threshold: 0 }
   );
