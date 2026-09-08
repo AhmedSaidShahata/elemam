@@ -41,12 +41,23 @@
     padding: 14px 20px;
   }
 
+  // A <button> (it acts as "return to top"), reset back to plain layout.
   &__logos {
     display: flex;
     align-items: center;
     gap: 16px;
     height: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
     flex-shrink: 0;
+    @include transition(0.2);
+
+    &:hover,
+    &:focus-visible {
+      opacity: 0.8;
+    }
   }
 
   &__logo-otas {
@@ -402,6 +413,21 @@
     flex: none;
     padding-bottom: 16px;
     border-bottom: 1px solid var(--landing-border);
+  }
+
+  // Wraps &__drawer-logo - acts as "return to top", reset back to plain layout.
+  &__drawer-logo-button {
+    display: inline-flex;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    @include transition(0.2);
+
+    &:hover,
+    &:focus-visible {
+      opacity: 0.8;
+    }
   }
 
   &__drawer-logo {
