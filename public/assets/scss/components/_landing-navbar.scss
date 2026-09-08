@@ -3,7 +3,7 @@
 // Holds the navbar's place in the hero's flow. The height is set inline by the
 // component at the moment the bar detaches, so the hero below does not jump.
 .landing-navbar-slot {
-  position: relative;
+  position: fixed;
   z-index: 99999;
   width: 100%;
   flex: none;
