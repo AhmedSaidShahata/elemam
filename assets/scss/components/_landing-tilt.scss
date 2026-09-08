@@ -1,0 +1,54 @@
+// Shared 3D tilt + glare, applied by the `v-tilt` directive (see
+// `app/plugins/tilt.client.js`). The directive only ever writes the
+// `--tilt-*` custom properties below; this file owns the actual look.
+
+.landing-tilt {
+  --tilt-rx: 0deg;
+  --tilt-ry: 0deg;
+  --tilt-glare-x: 50%;
+  --tilt-glare-y: 50%;
+
+  position: relative;
+  transform: perspective(900px) rotateX(var(--tilt-rx)) rotateY(var(--tilt-ry));
+  transition:
+    transform 0.2s ease-out,
+    box-shadow 0.2s ease-out;
+  will-change: transform;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    border-radius: inherit;
+    background: radial-gradient(
+      circle at var(--tilt-glare-x) var(--tilt-glare-y),
+      rgba(255, 255, 255, 0.45),
+      transparent 55%
+    );
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+  }
+}
+
+.landing-tilt.landing-tilt--active {
+  transition: transform 0.05s linear;
+  transform: perspective(900px) rotateX(var(--tilt-rx)) rotateY(var(--tilt-ry)) translateZ(18px);
+
+  &::after {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-tilt {
+    transform: none !important;
+    transition: none !important;
+
+    &::after {
+      display: none;
+    }
+  }
+}
