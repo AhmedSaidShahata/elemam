@@ -2,7 +2,7 @@
   <!-- The slot holds the navbar's place in the hero's flow. Once the bar goes
        fixed it reserves the height the bar used to occupy, so nothing below it
        jumps at the moment it detaches. -->
-  <div class="landing-navbar-slot" :style="slotStyle">
+  <div class="landing-navbar-slot" :class="{ 'landing-navbar-slot--stuck': isStuck }" :style="slotStyle">
     <nav ref="navEl" class="landing-navbar" :class="{ 'landing-navbar--stuck': isStuck }"
       :aria-label="$t('landing.nav.aria_label')">
       <button type="button" class="landing-navbar__logos" :aria-label="$t('landing.nav.back_to_top')"

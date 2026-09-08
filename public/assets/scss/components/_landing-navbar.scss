@@ -2,17 +2,21 @@
 
 // Holds the navbar's place in the hero's flow. The height is set inline by the
 // component at the moment the bar detaches, so the hero below does not jump.
-// This stays `relative` in both states on purpose - the "goes fixed on
-// scroll" behaviour already lives on the `<nav>` inside it via
-// `.landing-navbar--stuck`. If the slot itself went fixed too it would stop
-// holding that reserved height in the flow, and the content after it would
-// jump up the moment the bar detaches (confirmed: the page's scrollable
-// height dropped by ~140px at the exact instant of that toggle).
 .landing-navbar-slot {
   position: relative;
   z-index: 99999;
   width: 100%;
   flex: none;
+
+  // Mirrors `.landing-navbar--stuck`'s own fixed positioning once the bar has
+  // detached, so the slot (and its z-index) tracks it to the top of the
+  // viewport instead of staying pinned to wherever it sat in the flow.
+  &--stuck {
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    inset-inline: 0;
+  }
 }
 
 @keyframes landing-navbar-drop {
