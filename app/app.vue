@@ -1,6 +1,6 @@
 <template>
   <div>
-    <LazyPreloader v-if="loaderValue && localeValue" :locale="localeValue" />
+    <LazyPreloader  />
     <div id="main-app-content">
       <v-locale-provider :rtl="locale == 'ar'">
         <NuxtLayout>
@@ -19,11 +19,9 @@ import { ref, onMounted,  watch } from 'vue';
 import cookies from 'js-cookie';
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n';
-import { usePageHead } from "@/composables/usePageHead";
+
 import { setLocale as setLocaleValidate } from "@vee-validate/i18n";
 const route = useRoute()
-
-usePageHead();
 
 const { locale } = useI18n();
 const loading = ref(true);
@@ -32,7 +30,6 @@ const loading = ref(true);
 
 onMounted(async () => {
   handleLocale(locale.value);
-
   loading.value = false;
 });
 

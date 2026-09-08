@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <LandingLoader />
     <v-main class="pt-0">
       <slot />
     </v-main>
@@ -8,7 +9,6 @@
 
 <script setup>
 
-// hides anything under `html.js-reveal` - so for them the page renders in full.
 useHead({
   script: [
     {

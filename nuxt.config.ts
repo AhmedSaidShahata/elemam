@@ -57,15 +57,9 @@ export default defineNuxtConfig({
   app: {
     head: {
       script: [
-        { src: '/js/wow.min.js', defer: true },
-        { src: '/js/main.js', defer: true }
       ],
       link: [
-        // This config runs at build time, outside any Vue template, so it
-        // never gets the same-file static-src base-URL rewrite Vue's SFC
-        // compiler applies to a plain template `src="/assets/..."` - the
-        // base path has to be prefixed by hand here, same as
-        // `useLandingAsset()` does for the equivalent case at runtime.
+
         {
           rel: 'icon',
           type: 'image/svg+xml',
@@ -140,7 +134,6 @@ export default defineNuxtConfig({
         'swiper',
         '@vee-validate/i18n',
         'js-cookie',
-        'axios',
       ]
     },
     build: {
@@ -155,8 +148,6 @@ export default defineNuxtConfig({
   },
   compatibilityDate: '2025-06-11',
   plugins: [
-    '~/plugins/canonical.js',
-    '~/plugins/axios.server.js',
     '~/plugins/vuetify.js'
   ]
 })

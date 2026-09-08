@@ -13,27 +13,29 @@
 <script setup>
 import { onMounted } from "vue";
 import { useI18n } from "vue-i18n";
-import { usePageHead } from "~/composables/usePageHead";
 
-definePageMeta({
-  layout: "landing",
-});
+
 
 const { t } = useI18n();
 
-usePageHead({
-  title: t("landing.seo.title"),
-  description: t("landing.seo.description"),
-  keywords: t("landing.seo.keywords"),
+useHead(() => {
+  const title = t("landing.seo.title");
+  const description = t("landing.seo.description");
+
+  return {
+    title,
+    meta: [
+      { name: "description", content: description },
+      { name: "keywords", content: t("landing.seo.keywords") },
+      { property: "og:title", content: title },
+      { property: "og:description", content: description },
+      { name: "twitter:title", content: title },
+      { name: "twitter:description", content: description },
+    ],
+  };
 });
 
-// A direct link to e.g. #programs should land on that section, but on this
-// static build something client-side resets scroll to the top after the
-// initial mount, discarding the browser's own jump to the fragment - the
-// hash itself is untouched, only the scroll position is lost. A single
-// reassertion loses that race unpredictably depending on exactly when the
-// resetter runs, so this reasserts a few times over the first second instead
-// of depending on a guess about that timing.
+
 onMounted(() => {
   if (!window.location.hash) return;
 

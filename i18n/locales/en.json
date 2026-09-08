@@ -1,8 +1,5 @@
 {
   "code": "en",
-  "app_name": "App Name",
-  "change_language": "التغيير إلى العربية",
-  "blogs": "Blogs",
   "routes": {
     "home": "Home",
     "terms-conditions": "Terms & Conditions",
@@ -10,7 +7,6 @@
     "return-policy": "Return Policy",
     "contact-us": "Contact Us"
   },
-  
   "landing": {
     "nav": {
       "aria_label": "Main navigation",

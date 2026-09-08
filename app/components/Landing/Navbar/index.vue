@@ -250,9 +250,60 @@ const closeDrawer = () => {
   drawerOpen.value = false;
 };
 
+// Body scroll is locked while the drawer covers the page. `overflow: hidden`
+// alone (the site's other slide-out drawer's approach) stops the page from
+// scrolling on desktop, but iOS Safari still lets a touch drag scroll the
+// background underneath a `position: fixed` overlay, which visibly detaches
+// the drawer from the header once there is scroll offset behind it - the
+// symptom only ever shows up away from the very top of the page, since with
+// nothing behind to scroll the naive lock looks fine by accident. Pinning the
+// body to its current scroll offset is the standard fix for that class of bug.
+let lockedScrollY = 0;
+// Closing the drawer normally snaps back to wherever the visitor was before
+// opening it (below) - set for the one click that's deliberately taking them
+// somewhere else instead (see onDrawerLinkClick), so that restore doesn't
+// immediately undo it.
+let suppressScrollRestore = false;
+
+const unlockBodyScroll = () => {
+  document.documentElement.style.overflow = "";
+  document.body.style.position = "";
+  document.body.style.top = "";
+  document.body.style.width = "";
+};
+
+watch(drawerOpen, (open) => {
+  if (open) {
+    lockedScrollY = window.scrollY;
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${lockedScrollY}px`;
+    document.body.style.width = "100%";
+    return;
+  }
+
+  unlockBodyScroll();
+  if (suppressScrollRestore) {
+    suppressScrollRestore = false;
+    return;
+  }
+  window.scrollTo(0, lockedScrollY);
+});
+
 const onDrawerLinkClick = (event, href) => {
+  // A link to an on-page section is a real navigation, not just a "close and
+  // stay put" - suppress the watcher's restore above so it doesn't scroll
+  // back to the pre-open position right after this scrolls to the target,
+  // and unlock the body synchronously first, since scrollIntoView has no
+  // visible effect while it's still pinned via the lock's position:fixed.
+  if (href?.startsWith("#") && document.getElementById(href.slice(1))) {
+    suppressScrollRestore = true;
+    closeDrawer();
+    unlockBodyScroll();
+  } else {
+    closeDrawer();
+  }
   scrollToSection(event, href);
-  closeDrawer();
 };
 
 // Closing the drawer alongside the switch avoids showing it flip from one
@@ -263,32 +314,6 @@ const onDrawerLangClick = () => {
   switchLocale();
   closeDrawer();
 };
-
-// Body scroll is locked while the drawer covers the page. `overflow: hidden`
-// alone (the site's other slide-out drawer's approach) stops the page from
-// scrolling on desktop, but iOS Safari still lets a touch drag scroll the
-// background underneath a `position: fixed` overlay, which visibly detaches
-// the drawer from the header once there is scroll offset behind it - the
-// symptom only ever shows up away from the very top of the page, since with
-// nothing behind to scroll the naive lock looks fine by accident. Pinning the
-// body to its current scroll offset is the standard fix for that class of bug.
-let lockedScrollY = 0;
-
-watch(drawerOpen, (open) => {
-  if (open) {
-    lockedScrollY = window.scrollY;
-    document.documentElement.style.overflow = "hidden";
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${lockedScrollY}px`;
-    document.body.style.width = "100%";
-  } else {
-    document.documentElement.style.overflow = "";
-    document.body.style.position = "";
-    document.body.style.top = "";
-    document.body.style.width = "";
-    window.scrollTo(0, lockedScrollY);
-  }
-});
 
 const onKeydown = (event) => {
   if (event.key === "Escape" && drawerOpen.value) closeDrawer();
@@ -399,9 +424,6 @@ onBeforeUnmount(() => {
   document.documentElement.style.removeProperty("--landing-header-clearance");
   // Leaving the page with the drawer open must not strand the rest of the app
   // with scrolling locked.
-  document.documentElement.style.overflow = "";
-  document.body.style.position = "";
-  document.body.style.top = "";
-  document.body.style.width = "";
+  unlockBodyScroll();
 });
 </script>
