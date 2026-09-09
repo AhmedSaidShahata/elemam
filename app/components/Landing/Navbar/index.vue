@@ -40,15 +40,6 @@
 
 
   <v-app-bar class="landing-mobile-bar px-2" :elevation="isStuck ? 3 : 0" flat>
-    <button type="button" class="landing-mobile-bar__logo" :aria-label="$t('landing.nav.back_to_top')"
-      @click="onLogoClick">
-      <img style="object-fit:contain;width: 118px;height: auto;"  src="/assets/icons/landing/logo-mobile.svg"
-        :alt="$t('landing.nav.otas_logo_alt')" width="95" height="44" />
-
-    </button>
-
-    <v-spacer />
-
     <button type="button" class="landing-mobile-bar__toggle" :aria-expanded="drawerOpen ? 'true' : 'false'"
       aria-controls="landing-navbar-drawer"
       :aria-label="$t(drawerOpen ? 'landing.nav.close_menu' : 'landing.nav.open_menu')"
@@ -60,6 +51,16 @@
         <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
       </svg>
     </button>
+    <button type="button" class="landing-mobile-bar__logo" :aria-label="$t('landing.nav.back_to_top')"
+      @click="onLogoClick">
+      <img style="object-fit:contain;width: 118px;height: auto;" src="/assets/icons/landing/logo-mobile.svg"
+        :alt="$t('landing.nav.otas_logo_alt')" width="95" height="44" />
+
+    </button>
+
+    <v-spacer />
+
+
   </v-app-bar>
 
   <v-navigation-drawer id="landing-navbar-drawer" v-model="drawerOpen" temporary disable-resize-watcher
@@ -84,8 +85,7 @@
       <li v-for="link in links" :key="link.key">
         <a class="landing-navbar__drawer-link"
           :class="{ 'landing-navbar__drawer-link--active': activeSection === link.key }" :href="link.href"
-          :aria-current="activeSection === link.key ? 'true' : undefined"
-          @click="onDrawerLinkClick($event, link.href)">
+          :aria-current="activeSection === link.key ? 'true' : undefined" @click="onDrawerLinkClick($event, link.href)">
           {{ $t(`landing.nav.${link.key}`) }}
         </a>
       </li>
@@ -93,8 +93,8 @@
 
     <button type="button" class="landing-navbar__drawer-lang" :aria-label="$t('landing.nav.switch_language')"
       @click="onDrawerLangClick">
-      <img class="landing-navbar__drawer-lang-icon" src="/assets/icons/landing/globe.svg" alt="" width="18"
-        height="18" aria-hidden="true" />
+      <img class="landing-navbar__drawer-lang-icon" src="/assets/icons/landing/globe.svg" alt="" width="18" height="18"
+        aria-hidden="true" />
       <span class="landing-navbar__drawer-lang-label">{{ nextLocaleLabel }}</span>
     </button>
 
