@@ -51,6 +51,7 @@
         <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
       </svg>
     </button>
+        <v-spacer />
     <button type="button" class="landing-mobile-bar__logo" :aria-label="$t('landing.nav.back_to_top')"
       @click="onLogoClick">
       <img style="object-fit:contain;width: 118px;height: auto;" src="/assets/icons/landing/logo-mobile.svg"
@@ -58,13 +59,13 @@
 
     </button>
 
-    <v-spacer />
+
 
 
   </v-app-bar>
 
   <v-navigation-drawer id="landing-navbar-drawer" v-model="drawerOpen" temporary disable-resize-watcher
-    disable-route-watcher location="end" :width="drawerWidth" scrim="rgba(20, 14, 33, 0.55)" role="dialog"
+    disable-route-watcher location="start" :width="drawerWidth" scrim="rgba(20, 14, 33, 0.55)" role="dialog"
     :aria-modal="drawerOpen ? 'true' : undefined" :aria-label="$t('landing.nav.aria_label')"
     class="landing-navbar__drawer">
     <div class="landing-navbar__drawer-head">
