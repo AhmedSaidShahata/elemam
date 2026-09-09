@@ -27,6 +27,7 @@
     opacity: 0;
     transform: translate3d(0, -100%, 0);
   }
+
   to {
     opacity: 1;
     transform: translate3d(0, 0, 0);
@@ -109,7 +110,7 @@
     //     width: 25px;
     // height: 54px;
     // }
-  
+
   }
 
   &__links {
@@ -266,7 +267,8 @@
     z-index: 9500 !important;
     width: 100%;
     height: 72px;
-    padding: 0 151px;
+    // padding: 0 151px;
+    padding: 0 122px;
     border-radius: 0;
     background: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(16px);
@@ -574,4 +576,3 @@
     transition: none !important;
   }
 }
-

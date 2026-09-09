@@ -51,6 +51,7 @@
   &__question {
     display: flex;
     align-items: center;
+    flex-direction: row-reverse;
     gap: 16px;
     width: 100%;
     padding: 0;
