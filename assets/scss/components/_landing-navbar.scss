@@ -1,21 +1,24 @@
 @use "../mixins" as *;
 
-// Holds the navbar's place in the hero's flow. The height is set inline by the
-// component at the moment the bar detaches, so the hero below does not jump.
+// Holds the desktop bar's place in the hero's flow. The height is set inline
+// by the component at the moment the bar detaches, so the hero below does
+// not jump. This stays `relative` in both states on purpose - the "goes
+// fixed on scroll" behaviour already lives on the `<nav>` inside it via
+// `.landing-navbar--stuck`. Making the slot itself fixed too stops it from
+// holding that reserved height in the flow (confirmed: the page's scrollable
+// height silently dropped by ~140px at the exact instant of that toggle),
+// and - on mobile - was also what left the drawer trapped inside a
+// low-ranked stacking context once the bar detached, so it stopped painting
+// above the rest of the page. This bar is desktop-only now anyway (see
+// `.landing-mobile-bar` for the always-fixed mobile app bar).
 .landing-navbar-slot {
   position: relative;
   z-index: 99999;
   width: 100%;
   flex: none;
 
-  // Mirrors `.landing-navbar--stuck`'s own fixed positioning once the bar has
-  // detached, so the slot (and its z-index) tracks it to the top of the
-  // viewport instead of staying pinned to wherever it sat in the flow.
-  &--stuck {
-    position: fixed;
-    z-index: 999;
-    top: 0;
-    inset-inline: 0;
+  @include screen(1279px) {
+    display: none;
   }
 }
 
@@ -298,134 +301,44 @@
     @include screen(1919px) {
       padding: 0 5%;
     }
-
-    @include screen(1279px) {
-      height: auto;
-      flex-wrap: nowrap;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 8px 20px;
-
-      .landing-navbar__logo-university {
-        width: 30px;
-        height: 41px;
-      }
-
-      .landing-navbar__logo-otas {
-        width: 70px;
-        height: 27px;
-      }
-
-      .landing-navbar__logo-divider-wrap {
-        display: none;
-      }
-    }
-
-    // The language switch and CTA are hidden below 1279px (see `&__lang` and
-    // `&__cta`), so even at phone width the bar only ever holds the logos and
-    // the drawer toggle - no need to give up the crests for room any more.
-    @include screen(767px) {
-      padding: 8px 16px;
-      gap: 8px;
-    }
   }
 
-  // Reveals the drawer toggle exactly where `&__links` hides above, so there
-  // is never a moment with neither the inline links nor the button to reach them.
-  &__menu-toggle {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    padding: 0;
-    border: 1px solid rgba(72, 52, 120, 0.16);
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.7);
-    color: #483478;
-    cursor: pointer;
-    flex-shrink: 0;
-    @include transition(0.25);
-
-    &:hover,
-    &:focus-visible {
-      background: #fff;
-      border-color: rgba(72, 52, 120, 0.32);
-    }
-
-    svg {
-      display: block;
-      width: 20px;
-      height: 20px;
-    }
-
-    @include screen(1279px) {
-      display: inline-flex;
-    }
-  }
-
-  // A plain, Bootstrap-offcanvas-style drawer: a dimmed backdrop plus a panel
-  // that slides in from the reading-end edge - no component library involved,
-  // just position/transform/transition, same as Bootstrap's own `.offcanvas`.
-  &__backdrop {
-    position: fixed;
-    inset: 0;
-    z-index: 9000;
-    background: rgba(20, 14, 33, 0.55);
-    opacity: 0;
-    visibility: hidden;
-    transition:
-      opacity 0.3s ease,
-      visibility 0s linear 0.3s;
-
-    // Nothing above the breakpoint can open the drawer (see `&__menu-toggle`),
-    // so neither this nor the drawer itself needs to exist there at all.
-    @include minScreen(1280px) {
-      display: none;
-    }
-
-    &--open {
-      opacity: 1;
-      visibility: visible;
-      transition: opacity 0.3s ease;
-    }
-  }
-
-  // Pinned to the reading-end edge and slid fully off-screen when closed - see
-  // the `[dir="rtl"]` override below for the mirrored physical direction.
-  &__drawer {
-    position: fixed;
-    inset-block: 0;
-    inset-inline-end: 0;
+  // Vuetify's <v-navigation-drawer> (`temporary`, `location="end"`) owns the
+  // scrim, the slide transform, the RTL-mirrored physical side, and focus
+  // trapping. It defaults to `position: absolute` sized for a `<v-app>`
+  // layout, which this landing page doesn't use, so position/size are forced
+  // into a plain viewport-covering overlay instead - the same `!important`
+  // pattern already used by the (unused, legacy)
+  // `Shared/Layout/Header/Minimal` header for the same reason. Width itself
+  // is NOT forced here - it's bound reactively via `:width` in the component
+  // instead (see `drawerWidth` in the script), because Vuetify computes its
+  // closed-state slide-out distance from that prop's number, not from
+  // whatever width the CSS renders it at.
+  &__drawer.v-navigation-drawer {
+    position: fixed !important;
+    top: 0 !important;
     z-index: 999999 !important;
+    max-width: 100% !important;
+    height: 100dvh !important;
+    background: #fff !important;
+    box-shadow: -12px 0 40px rgba(31, 25, 38, 0.18);
+
+    // Nothing above the breakpoint can open this (the mobile app bar's
+    // toggle is hidden there too - see `.landing-mobile-bar`), so it stays
+    // fully out of the layout instead of just sitting closed.
+    @include minScreen(1280px) {
+      display: none !important;
+    }
+  }
+
+  // Vuetify wraps the drawer's slotted content in its own `&__content` node -
+  // the actual head/links/lang/cta column layout lives there instead of on
+  // the drawer root above.
+  &__drawer .v-navigation-drawer__content {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    width: 100%;
-    height: 100dvh;
     padding: 20px;
-    background: #fff;
-    box-shadow: -12px 0 40px rgba(31, 25, 38, 0.18);
-    transform: translateX(100%);
-    transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.24, 1);
-    overflow-y: auto;
-
-    // Nothing above the breakpoint can open this (see `&__menu-toggle`), so
-    // it stays fully out of the layout there instead of just sitting closed.
-    @include minScreen(1280px) {
-      display: none;
-    }
-
-    &--open {
-      transform: translateX(0);
-    }
-
-    // Applied for one repaint around a language switch, when flipping `dir`
-    // changes which of the two "closed" values below applies and would
-    // otherwise animate the (still-closed) drawer across the viewport.
-    &--no-transition {
-      transition: none !important;
-    }
   }
 
   &__drawer-head {
@@ -580,20 +493,85 @@
   }
 }
 
-// The drawer slides in from the edge the locale reads toward, mirroring
-// `&__drawer`'s `inset-inline-end` placement in the opposite physical direction.
-[dir="rtl"] .landing-navbar__drawer {
-  transform: translateX(-100%);
+// Always fixed, like any app bar - not "detaches after N scrolled pixels"
+// like the desktop bar. Vuetify's <v-app-bar> also defaults to
+// `position: absolute` sized for a `<v-app>` layout this page doesn't use,
+// so position/size are forced here the same way as the drawer above.
+.landing-mobile-bar {
+  position: fixed !important;
+  top: 0 !important;
+  inset-inline: 0 !important;
+  z-index: 9500 !important;
+  height: 64px !important;
+  // Vuetify's own `.v-toolbar__content` already applies a 16px horizontal
+  // inset, so nothing extra is added here.
+  background: rgba(255, 255, 255, 0.96) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 10px 30px rgba(31, 25, 38, 0.12);
+  // Same iOS WebKit fixed + backdrop-filter compositing bug as the desktop
+  // bar's `&--stuck` - see there for the long version.
+  isolation: isolate;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 
-  &.landing-navbar__drawer--open {
-    transform: translateX(0);
+  @include minScreen(1280px) {
+    display: none !important;
+  }
+
+  &__logo {
+    display: inline-flex;
+    align-items: center;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    @include transition(0.2);
+
+    &:hover,
+    &:focus-visible {
+      opacity: 0.8;
+    }
+  }
+
+  &__logo-otas {
+    display: block;
+    width: 84px;
+    height: 32px;
+  }
+
+  &__toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid rgba(72, 52, 120, 0.16);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.7);
+    color: #483478;
+    cursor: pointer;
+    flex-shrink: 0;
+    @include transition(0.25);
+
+    &:hover,
+    &:focus-visible {
+      background: #fff;
+      border-color: rgba(72, 52, 120, 0.32);
+    }
+
+    svg {
+      display: block;
+      width: 20px;
+      height: 20px;
+    }
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .landing-navbar__drawer,
-  .landing-navbar__backdrop {
-    transition: none;
+  .landing-navbar__drawer {
+    transition: none !important;
   }
 }
 
