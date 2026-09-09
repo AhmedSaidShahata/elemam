@@ -237,8 +237,8 @@
       color: #fff;
     }
 
-    @include screen(767px) {
-      font-size: 16px;
+    @include screen(1500px) {
+      font-size: 14px;
     }
   }
 
@@ -251,7 +251,9 @@
     line-height: 1.6;
     color: var(--landing-muted);
     text-align: center;
-
+   @include screen(1540px) {
+      font-size: 14px;
+    }
     .landing-programs__card--sky & {
       color: var(--landing-sky-ink);
     }

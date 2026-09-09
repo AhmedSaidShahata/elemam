@@ -1,13 +1,8 @@
 <template>
   <section id="international" class="landing-international">
     <div v-reveal.start v-tilt class="landing-international__visual">
-      <img
-        class="landing-international__visual-media"
-        src="/assets/images/landing/international-visual.png"
-        :alt="$t('landing.international.visual_title')"
-        width="520"
-        height="640"
-      />
+      <img class="landing-international__visual-media" src="/assets/images/landing/international-visual.png"
+        :alt="$t('landing.international.visual_title')" width="520" height="640" />
       <div class="landing-international__visual-card">
         <p class="landing-international__visual-title">
           {{ $t("landing.international.visual_title") }}
@@ -19,11 +14,8 @@
     </div>
 
     <div v-reveal.end class="landing-international__content">
-      <LandingSectionHeader
-        align="start"
-        :eyebrow="$t('landing.international.eyebrow')"
-        :title="$t('landing.international.title')"
-      />
+      <LandingSectionHeader align="start" :eyebrow="$t('landing.international.eyebrow')"
+        :title="$t('landing.international.title')" />
 
       <div class="landing-international__intro">
         <p class="landing-international__intro-lead">
@@ -40,20 +32,11 @@
         </h3>
 
         <div v-reveal.stagger class="landing-international__features-grid">
-          <article
-            v-for="feature in features"
-            :key="feature.key"
-            class="landing-international__feature"
-          >
+          <article v-for="feature in features" :key="feature.key" class="landing-international__feature">
             <span class="landing-international__feature-icon-box">
-              <img
-                class="landing-international__feature-icon"
-                :src="assetUrl(`assets/icons/landing/${feature.icon}.svg`)"
-                alt=""
-                width="20"
-                height="20"
-                aria-hidden="true"
-              />
+              <img class="landing-international__feature-icon"
+                :src="assetUrl(`assets/icons/landing/${feature.icon}.svg`)" alt="" width="20" height="20"
+                aria-hidden="true" />
             </span>
             <div class="landing-international__feature-text">
               <p class="landing-international__feature-title">
@@ -74,9 +57,10 @@
 const { assetUrl } = useLandingAsset();
 
 const features = [
-  { key: "fully_virtual", icon: "monitor" },
   { key: "global_content", icon: "globe-feature" },
-  { key: "language_support", icon: "circle-x" },
+  { key: "fully_virtual", icon: "monitor" },
   { key: "certificates", icon: "award" },
+  { key: "language_support", icon: "circle-x" },
+
 ];
 </script>

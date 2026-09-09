@@ -1,9 +1,4 @@
 <template>
-  <!-- The slot holds the desktop bar's place in the hero's flow. Once it goes
-       fixed it reserves the height it used to occupy, so nothing below it
-       jumps at the moment it detaches. Purely a desktop concern - below the
-       breakpoint this bar is hidden entirely and the mobile app bar below
-       (always fixed, Vuetify-native) takes over instead. -->
   <div class="landing-navbar-slot" :style="slotStyle">
     <nav ref="navEl" class="landing-navbar" :class="{ 'landing-navbar--stuck': isStuck }"
       :aria-label="$t('landing.nav.aria_label')">
@@ -43,15 +38,13 @@
     </nav>
   </div>
 
-  <!-- Mobile bar: a real Vuetify <v-app-bar>, always fixed like any app bar
-       (not "detaches after N scrolled pixels" like the desktop bar above), so
-       it never depends on the same stuck/z-index machinery that was making
-       the drawer fail to show once the page had scrolled past the hero. -->
-  <v-app-bar class="landing-mobile-bar" :elevation="isStuck ? 3 : 0" flat>
+
+  <v-app-bar class="landing-mobile-bar px-2" :elevation="isStuck ? 3 : 0" flat>
     <button type="button" class="landing-mobile-bar__logo" :aria-label="$t('landing.nav.back_to_top')"
       @click="onLogoClick">
-      <img class="landing-mobile-bar__logo-otas" src="/assets/icons/landing/otas-logo.svg"
-        :alt="$t('landing.nav.otas_logo_alt')" width="100" height="38" />
+      <img style="object-fit:contain;width: 118px;height: auto;"  src="/assets/icons/landing/logo-mobile.svg"
+        :alt="$t('landing.nav.otas_logo_alt')" width="95" height="44" />
+
     </button>
 
     <v-spacer />
@@ -126,12 +119,7 @@ const { scrollToSection, scrollToTop } = useLandingScroll();
 const nextLocaleCode = computed(() => (locale.value === "ar" ? "en" : "ar"));
 const nextLocaleLabel = computed(() => nextLocaleCode.value.toUpperCase());
 
-// The old hand-rolled drawer keyed its slide transform off the `[dir]`
-// attribute directly, which raced a locale switch's synchronous
-// `setAttribute("dir", ...)` against Vue's deferred `:class` update and
-// produced a phantom full-width swipe. Vuetify's `<v-navigation-drawer>`
-// computes its own physical side from the reactive RTL context instead of
-// the DOM `dir` attribute, so that race doesn't apply here.
+
 const switchLocale = () => {
   const code = nextLocaleCode.value;
   setLocale(code);
