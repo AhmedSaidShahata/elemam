@@ -1,8 +1,10 @@
 <template>
-  <!-- The slot holds the navbar's place in the hero's flow. Once the bar goes
-       fixed it reserves the height the bar used to occupy, so nothing below it
-       jumps at the moment it detaches. -->
-  <div class="landing-navbar-slot" :class="{ 'landing-navbar-slot--stuck': isStuck }" :style="slotStyle">
+  <!-- The slot holds the desktop bar's place in the hero's flow. Once it goes
+       fixed it reserves the height it used to occupy, so nothing below it
+       jumps at the moment it detaches. Purely a desktop concern - below the
+       breakpoint this bar is hidden entirely and the mobile app bar below
+       (always fixed, Vuetify-native) takes over instead. -->
+  <div class="landing-navbar-slot" :style="slotStyle">
     <nav ref="navEl" class="landing-navbar" :class="{ 'landing-navbar--stuck': isStuck }"
       :aria-label="$t('landing.nav.aria_label')">
       <button type="button" class="landing-navbar__logos" :aria-label="$t('landing.nav.back_to_top')"
@@ -38,68 +40,76 @@
         @click="scrollToSection($event, registerHref)">
         {{ $t("landing.nav.register_now") }}
       </a>
+    </nav>
+  </div>
 
-      <!-- Below the breakpoint where `&__links` hides, this is the only way to
-           reach the section links - they move into the drawer below. -->
-      <button type="button" class="landing-navbar__menu-toggle" :aria-expanded="drawerOpen ? 'true' : 'false'"
-        aria-controls="landing-navbar-drawer"
-        :aria-label="$t(drawerOpen ? 'landing.nav.close_menu' : 'landing.nav.open_menu')"
-        @click="drawerOpen = !drawerOpen">
-        <svg v-if="!drawerOpen" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-        </svg>
-        <svg v-else viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <!-- Mobile bar: a real Vuetify <v-app-bar>, always fixed like any app bar
+       (not "detaches after N scrolled pixels" like the desktop bar above), so
+       it never depends on the same stuck/z-index machinery that was making
+       the drawer fail to show once the page had scrolled past the hero. -->
+  <v-app-bar class="landing-mobile-bar" :elevation="isStuck ? 3 : 0" flat>
+    <button type="button" class="landing-mobile-bar__logo" :aria-label="$t('landing.nav.back_to_top')"
+      @click="onLogoClick">
+      <img class="landing-mobile-bar__logo-otas" src="/assets/icons/landing/otas-logo.svg"
+        :alt="$t('landing.nav.otas_logo_alt')" width="100" height="38" />
+    </button>
+
+    <v-spacer />
+
+    <button type="button" class="landing-mobile-bar__toggle" :aria-expanded="drawerOpen ? 'true' : 'false'"
+      aria-controls="landing-navbar-drawer"
+      :aria-label="$t(drawerOpen ? 'landing.nav.close_menu' : 'landing.nav.open_menu')"
+      @click="drawerOpen = !drawerOpen">
+      <svg v-if="!drawerOpen" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      </svg>
+      <svg v-else viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      </svg>
+    </button>
+  </v-app-bar>
+
+  <v-navigation-drawer id="landing-navbar-drawer" v-model="drawerOpen" temporary disable-resize-watcher
+    disable-route-watcher location="end" :width="drawerWidth" scrim="rgba(20, 14, 33, 0.55)" role="dialog"
+    :aria-modal="drawerOpen ? 'true' : undefined" :aria-label="$t('landing.nav.aria_label')"
+    class="landing-navbar__drawer">
+    <div class="landing-navbar__drawer-head">
+      <button type="button" class="landing-navbar__drawer-logo-button" :aria-label="$t('landing.nav.back_to_top')"
+        @click="onDrawerLogoClick">
+        <img class="landing-navbar__drawer-logo" src="/assets/icons/landing/otas-logo.svg"
+          :alt="$t('landing.nav.otas_logo_alt')" width="70" height="27" />
+      </button>
+      <button type="button" class="landing-navbar__drawer-close" :aria-label="$t('landing.nav.close_menu')"
+        @click="closeDrawer">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
         </svg>
       </button>
-    </nav>
-
-    <div class="landing-navbar__backdrop" :class="{ 'landing-navbar__backdrop--open': drawerOpen }" aria-hidden="true"
-      @click="closeDrawer" />
-
-    <div id="landing-navbar-drawer" ref="drawerEl" class="landing-navbar__drawer"
-      :class="{ 'landing-navbar__drawer--open': drawerOpen }" role="dialog"
-      :aria-modal="drawerOpen ? 'true' : undefined" :aria-label="$t('landing.nav.aria_label')" :inert="!drawerOpen">
-      <div class="landing-navbar__drawer-head">
-        <button type="button" class="landing-navbar__drawer-logo-button" :aria-label="$t('landing.nav.back_to_top')"
-          @click="onDrawerLogoClick">
-          <img class="landing-navbar__drawer-logo" src="/assets/icons/landing/otas-logo.svg"
-            :alt="$t('landing.nav.otas_logo_alt')" width="70" height="27" />
-        </button>
-        <button type="button" class="landing-navbar__drawer-close" :aria-label="$t('landing.nav.close_menu')"
-          @click="closeDrawer">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-          </svg>
-        </button>
-      </div>
-
-
-      <ul class="landing-navbar__drawer-links">
-        <li v-for="link in links" :key="link.key">
-          <a class="landing-navbar__drawer-link"
-            :class="{ 'landing-navbar__drawer-link--active': activeSection === link.key }" :href="link.href"
-            :aria-current="activeSection === link.key ? 'true' : undefined"
-            @click="onDrawerLinkClick($event, link.href)">
-            {{ $t(`landing.nav.${link.key}`) }}
-          </a>
-        </li>
-      </ul>
-
-
-      <button type="button" class="landing-navbar__drawer-lang" :aria-label="$t('landing.nav.switch_language')"
-        @click="onDrawerLangClick">
-        <img class="landing-navbar__drawer-lang-icon" src="/assets/icons/landing/globe.svg" alt="" width="18"
-          height="18" aria-hidden="true" />
-        <span class="landing-navbar__drawer-lang-label">{{ nextLocaleLabel }}</span>
-      </button>
-
-      <a class="landing-navbar__drawer-cta" :href="registerHref" target="_blank" rel="noopener noreferrer"
-        @click="onDrawerLinkClick($event, registerHref)">
-        {{ $t("landing.nav.register_now") }}
-      </a>
     </div>
-  </div>
+
+    <ul class="landing-navbar__drawer-links">
+      <li v-for="link in links" :key="link.key">
+        <a class="landing-navbar__drawer-link"
+          :class="{ 'landing-navbar__drawer-link--active': activeSection === link.key }" :href="link.href"
+          :aria-current="activeSection === link.key ? 'true' : undefined"
+          @click="onDrawerLinkClick($event, link.href)">
+          {{ $t(`landing.nav.${link.key}`) }}
+        </a>
+      </li>
+    </ul>
+
+    <button type="button" class="landing-navbar__drawer-lang" :aria-label="$t('landing.nav.switch_language')"
+      @click="onDrawerLangClick">
+      <img class="landing-navbar__drawer-lang-icon" src="/assets/icons/landing/globe.svg" alt="" width="18"
+        height="18" aria-hidden="true" />
+      <span class="landing-navbar__drawer-lang-label">{{ nextLocaleLabel }}</span>
+    </button>
+
+    <a class="landing-navbar__drawer-cta" :href="registerHref" target="_blank" rel="noopener noreferrer"
+      @click="onDrawerLinkClick($event, registerHref)">
+      {{ $t("landing.nav.register_now") }}
+    </a>
+  </v-navigation-drawer>
 </template>
 
 <script setup>
@@ -116,46 +126,20 @@ const { scrollToSection, scrollToTop } = useLandingScroll();
 const nextLocaleCode = computed(() => (locale.value === "ar" ? "en" : "ar"));
 const nextLocaleLabel = computed(() => nextLocaleCode.value.toUpperCase());
 
-// The closed drawer sits at `translateX(100%)` in LTR and `translateX(-100%)`
-// in RTL (see the `[dir="rtl"]` override in the stylesheet) - two different
-// "off-screen" values for the same closed state. Flipping `dir` recomputes
-// which one applies, and since `transform` is a transitioned property, the
-// browser animates between them, sliding the closed drawer across the full
-// viewport and back out. Suppressing the transition for the two paints
-// around the flip removes that phantom swipe without touching the drawer's
-// own open/close animation once the frame after has already landed.
-//
-// This toggles the suppression class directly on the element rather than
-// through a reactive ref: Vue only applies a `:class` binding's DOM update on
-// its next microtask flush, but `applyChange` below sets `dir` synchronously,
-// in this same tick. A browser that hasn't paused to let that microtask land
-// before its next paint (any real browser, unlike this project's dev-time
-// checks in a backgrounded tab) can start the transition on the old class
-// list and still catch the phantom swipe. Setting the class straight on the
-// node closes that gap entirely.
-const NO_TRANSITION_CLASS = "landing-navbar__drawer--no-transition";
-
-const withoutDrawerTransition = (applyChange) => {
-  const el = drawerEl.value;
-  el?.classList.add(NO_TRANSITION_CLASS);
-  applyChange();
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      el?.classList.remove(NO_TRANSITION_CLASS);
-    });
-  });
-};
-
+// The old hand-rolled drawer keyed its slide transform off the `[dir]`
+// attribute directly, which raced a locale switch's synchronous
+// `setAttribute("dir", ...)` against Vue's deferred `:class` update and
+// produced a phantom full-width swipe. Vuetify's `<v-navigation-drawer>`
+// computes its own physical side from the reactive RTL context instead of
+// the DOM `dir` attribute, so that race doesn't apply here.
 const switchLocale = () => {
   const code = nextLocaleCode.value;
   setLocale(code);
   setLocaleValidate(code);
   setLocaleApp(code);
   cookies.set("_lang", code);
-  withoutDrawerTransition(() => {
-    document.documentElement.setAttribute("dir", code === "ar" ? "rtl" : "ltr");
-    document.documentElement.setAttribute("lang", code);
-  });
+  document.documentElement.setAttribute("dir", code === "ar" ? "rtl" : "ltr");
+  document.documentElement.setAttribute("lang", code);
 };
 
 // How far the page scrolls before the bar detaches from the hero.
@@ -166,11 +150,18 @@ const STICK_AFTER = 80;
 const DRAWER_BREAKPOINT = 1279;
 
 const navEl = ref(null);
-const drawerEl = ref(null);
 const isStuck = ref(false);
 const reservedHeight = ref(0);
 const activeSection = ref("");
 const drawerOpen = ref(false);
+
+// <v-navigation-drawer> computes its own slide-out distance from this prop's
+// *number*, not from whatever width the CSS actually renders it at - a plain
+// `width: 100%` override in the stylesheet would leave the closed drawer
+// sliding out by the wrong (default 256px) distance instead of the full
+// viewport, visibly clipping into view at the edge. Feeding it the real
+// viewport width keeps the two in sync.
+const drawerWidth = ref(0);
 
 const closeDrawer = () => {
   drawerOpen.value = false;
@@ -255,9 +246,7 @@ const onDrawerLogoClick = (event) => {
 };
 
 // Closing the drawer alongside the switch avoids showing it flip from one
-// side of the screen to the other while still open - `switchLocale` already
-// suppresses the drawer's own transition for the moment `dir` changes, so this
-// closes instantly rather than animating out.
+// side of the screen to the other while still open.
 const onDrawerLangClick = () => {
   switchLocale();
   closeDrawer();
@@ -316,6 +305,7 @@ const onScroll = () => {
 const onResize = () => {
   measure();
   publishClearance();
+  drawerWidth.value = window.innerWidth;
 
   // The toggle button that opens the drawer disappears above the breakpoint,
   // so a drawer left open while resizing past it (e.g. rotating a tablet, or
@@ -331,6 +321,7 @@ let barResize = null;
 
 onMounted(() => {
   measure();
+  drawerWidth.value = window.innerWidth;
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", onResize);
   window.addEventListener("keydown", onKeydown);

@@ -17,13 +17,18 @@
     padding: 16px 5% 32px;
   }
 
+  // The mobile app bar (see `.landing-mobile-bar`) is always fixed, unlike
+  // the desktop bar which starts in the flow and only detaches after a
+  // scroll threshold - so below this breakpoint the hero needs its own top
+  // clearance to avoid sitting under it from the very first paint.
   @include screen(1279px) {
     gap: 48px;
+    padding-top: 80px;
   }
 
   @include screen(767px) {
     gap: 32px;
-    padding: 16px 16px 32px;
+    padding: 80px 16px 32px;
   }
 
   &__bg {
