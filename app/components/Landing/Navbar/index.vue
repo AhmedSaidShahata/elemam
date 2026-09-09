@@ -54,10 +54,12 @@
       </button>
     </nav>
 
-    <v-navigation-drawer id="landing-navbar-drawer" v-model="drawerOpen" temporary disable-resize-watcher
-      disable-route-watcher location="end" :width="drawerWidth" scrim="rgba(20, 14, 33, 0.55)" role="dialog"
-      :aria-modal="drawerOpen ? 'true' : undefined" :aria-label="$t('landing.nav.aria_label')"
-      class="landing-navbar__drawer">
+    <div class="landing-navbar__backdrop" :class="{ 'landing-navbar__backdrop--open': drawerOpen }" aria-hidden="true"
+      @click="closeDrawer" />
+
+    <div id="landing-navbar-drawer" ref="drawerEl" class="landing-navbar__drawer"
+      :class="{ 'landing-navbar__drawer--open': drawerOpen }" role="dialog"
+      :aria-modal="drawerOpen ? 'true' : undefined" :aria-label="$t('landing.nav.aria_label')" :inert="!drawerOpen">
       <div class="landing-navbar__drawer-head">
         <button type="button" class="landing-navbar__drawer-logo-button" :aria-label="$t('landing.nav.back_to_top')"
           @click="onDrawerLogoClick">
@@ -96,7 +98,7 @@
         @click="onDrawerLinkClick($event, registerHref)">
         {{ $t("landing.nav.register_now") }}
       </a>
-    </v-navigation-drawer>
+    </div>
   </div>
 </template>
 
@@ -114,20 +116,46 @@ const { scrollToSection, scrollToTop } = useLandingScroll();
 const nextLocaleCode = computed(() => (locale.value === "ar" ? "en" : "ar"));
 const nextLocaleLabel = computed(() => nextLocaleCode.value.toUpperCase());
 
-// The old hand-rolled drawer keyed its slide transform off the `[dir]`
-// attribute directly, which raced a locale switch's synchronous
-// `setAttribute("dir", ...)` against Vue's deferred `:class` update and
-// produced a phantom full-width swipe. Vuetify's `<v-navigation-drawer>`
-// computes its own physical side from the reactive RTL context instead of
-// the DOM `dir` attribute, so that race no longer applies here.
+// The closed drawer sits at `translateX(100%)` in LTR and `translateX(-100%)`
+// in RTL (see the `[dir="rtl"]` override in the stylesheet) - two different
+// "off-screen" values for the same closed state. Flipping `dir` recomputes
+// which one applies, and since `transform` is a transitioned property, the
+// browser animates between them, sliding the closed drawer across the full
+// viewport and back out. Suppressing the transition for the two paints
+// around the flip removes that phantom swipe without touching the drawer's
+// own open/close animation once the frame after has already landed.
+//
+// This toggles the suppression class directly on the element rather than
+// through a reactive ref: Vue only applies a `:class` binding's DOM update on
+// its next microtask flush, but `applyChange` below sets `dir` synchronously,
+// in this same tick. A browser that hasn't paused to let that microtask land
+// before its next paint (any real browser, unlike this project's dev-time
+// checks in a backgrounded tab) can start the transition on the old class
+// list and still catch the phantom swipe. Setting the class straight on the
+// node closes that gap entirely.
+const NO_TRANSITION_CLASS = "landing-navbar__drawer--no-transition";
+
+const withoutDrawerTransition = (applyChange) => {
+  const el = drawerEl.value;
+  el?.classList.add(NO_TRANSITION_CLASS);
+  applyChange();
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      el?.classList.remove(NO_TRANSITION_CLASS);
+    });
+  });
+};
+
 const switchLocale = () => {
   const code = nextLocaleCode.value;
   setLocale(code);
   setLocaleValidate(code);
   setLocaleApp(code);
   cookies.set("_lang", code);
-  document.documentElement.setAttribute("dir", code === "ar" ? "rtl" : "ltr");
-  document.documentElement.setAttribute("lang", code);
+  withoutDrawerTransition(() => {
+    document.documentElement.setAttribute("dir", code === "ar" ? "rtl" : "ltr");
+    document.documentElement.setAttribute("lang", code);
+  });
 };
 
 // How far the page scrolls before the bar detaches from the hero.
@@ -138,18 +166,11 @@ const STICK_AFTER = 80;
 const DRAWER_BREAKPOINT = 1279;
 
 const navEl = ref(null);
+const drawerEl = ref(null);
 const isStuck = ref(false);
 const reservedHeight = ref(0);
 const activeSection = ref("");
 const drawerOpen = ref(false);
-
-// <v-navigation-drawer> computes its own slide-out distance from this prop's
-// *number*, not from whatever width the CSS actually renders it at - a plain
-// `width: 100%` override in the stylesheet would leave the closed drawer
-// sliding out by the wrong (default 256px) distance instead of the full
-// viewport, visibly clipping into view at the edge. Feeding it the real
-// viewport width keeps the two in sync.
-const drawerWidth = ref(0);
 
 const closeDrawer = () => {
   drawerOpen.value = false;
@@ -234,7 +255,9 @@ const onDrawerLogoClick = (event) => {
 };
 
 // Closing the drawer alongside the switch avoids showing it flip from one
-// side of the screen to the other while still open.
+// side of the screen to the other while still open - `switchLocale` already
+// suppresses the drawer's own transition for the moment `dir` changes, so this
+// closes instantly rather than animating out.
 const onDrawerLangClick = () => {
   switchLocale();
   closeDrawer();
@@ -293,7 +316,6 @@ const onScroll = () => {
 const onResize = () => {
   measure();
   publishClearance();
-  drawerWidth.value = window.innerWidth;
 
   // The toggle button that opens the drawer disappears above the breakpoint,
   // so a drawer left open while resizing past it (e.g. rotating a tablet, or
@@ -309,7 +331,6 @@ let barResize = null;
 
 onMounted(() => {
   measure();
-  drawerWidth.value = window.innerWidth;
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", onResize);
   window.addEventListener("keydown", onKeydown);

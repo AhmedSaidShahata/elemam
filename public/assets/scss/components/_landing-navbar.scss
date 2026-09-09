@@ -364,41 +364,68 @@
     }
   }
 
-  // Vuetify's <v-navigation-drawer> (`temporary`, `location="end"`) now owns
-  // the scrim, the slide transform, the RTL-mirrored physical side, and focus
-  // trapping. It defaults to `position: absolute` sized for a `<v-app>`
-  // layout, which this landing page doesn't use, so position/size are forced
-  // into a plain viewport-covering overlay instead - the same `!important`
-  // pattern already used by the (unused, legacy)
-  // `Shared/Layout/Header/Minimal` header for the same reason.
-  // Width itself is NOT forced here - it's bound reactively via `:width` in
-  // the component instead (see `drawerWidth` in the script), because Vuetify
-  // computes its closed-state slide-out distance from that prop's number, not
-  // from whatever width the CSS renders it at.
-  &__drawer.v-navigation-drawer {
-    position: fixed !important;
-    top: 0 !important;
+  // A plain, Bootstrap-offcanvas-style drawer: a dimmed backdrop plus a panel
+  // that slides in from the reading-end edge - no component library involved,
+  // just position/transform/transition, same as Bootstrap's own `.offcanvas`.
+  &__backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    background: rgba(20, 14, 33, 0.55);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.3s ease,
+      visibility 0s linear 0.3s;
+
+    // Nothing above the breakpoint can open the drawer (see `&__menu-toggle`),
+    // so neither this nor the drawer itself needs to exist there at all.
+    @include minScreen(1280px) {
+      display: none;
+    }
+
+    &--open {
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.3s ease;
+    }
+  }
+
+  // Pinned to the reading-end edge and slid fully off-screen when closed - see
+  // the `[dir="rtl"]` override below for the mirrored physical direction.
+  &__drawer {
+    position: fixed;
+    inset-block: 0;
+    inset-inline-end: 0;
     z-index: 999999 !important;
-    max-width: 100% !important;
-    height: 100dvh !important;
-    background: #fff !important;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    height: 100dvh;
+    padding: 20px;
+    background: #fff;
     box-shadow: -12px 0 40px rgba(31, 25, 38, 0.18);
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.24, 1);
+    overflow-y: auto;
 
     // Nothing above the breakpoint can open this (see `&__menu-toggle`), so
     // it stays fully out of the layout there instead of just sitting closed.
     @include minScreen(1280px) {
-      display: none !important;
+      display: none;
     }
-  }
 
-  // Vuetify wraps the drawer's slotted content in its own `&__content` node -
-  // the actual head/links/lang/cta column layout lives there instead of on
-  // the drawer root above.
-  &__drawer .v-navigation-drawer__content {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 20px;
+    &--open {
+      transform: translateX(0);
+    }
+
+    // Applied for one repaint around a language switch, when flipping `dir`
+    // changes which of the two "closed" values below applies and would
+    // otherwise animate the (still-closed) drawer across the viewport.
+    &--no-transition {
+      transition: none !important;
+    }
   }
 
   &__drawer-head {
@@ -550,6 +577,23 @@
     &:focus-visible {
       background: #3a2a63;
     }
+  }
+}
+
+// The drawer slides in from the edge the locale reads toward, mirroring
+// `&__drawer`'s `inset-inline-end` placement in the opposite physical direction.
+[dir="rtl"] .landing-navbar__drawer {
+  transform: translateX(-100%);
+
+  &.landing-navbar__drawer--open {
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-navbar__drawer,
+  .landing-navbar__backdrop {
+    transition: none;
   }
 }
 
