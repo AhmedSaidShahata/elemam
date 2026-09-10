@@ -39,7 +39,7 @@
   </div>
 
 
-  <v-app-bar class="landing-mobile-bar px-2" :elevation="isStuck ? 3 : 0" flat>
+  <v-app-bar class="landing-mobile-bar px-4" :elevation="isStuck ? 3 : 0" flat>
     <button type="button" class="landing-mobile-bar__toggle" :aria-expanded="drawerOpen ? 'true' : 'false'"
       aria-controls="landing-navbar-drawer"
       :aria-label="$t(drawerOpen ? 'landing.nav.close_menu' : 'landing.nav.open_menu')"
@@ -51,17 +51,13 @@
         <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
       </svg>
     </button>
-        <v-spacer />
+    <v-spacer />
     <button type="button" class="landing-mobile-bar__logo" :aria-label="$t('landing.nav.back_to_top')"
       @click="onLogoClick">
       <img style="object-fit:contain;width: 118px;height: auto;" src="/assets/icons/landing/logo-mobile.svg"
         :alt="$t('landing.nav.otas_logo_alt')" width="95" height="44" />
 
     </button>
-
-
-
-
   </v-app-bar>
 
   <v-navigation-drawer id="landing-navbar-drawer" v-model="drawerOpen" temporary disable-resize-watcher
